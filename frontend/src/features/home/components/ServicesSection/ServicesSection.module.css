@@ -195,9 +195,51 @@
     align-items: flex-start;
     padding-left: calc(1.5rem + 2.5rem + 2.5rem);
     padding-bottom: 3rem;
+    gap: 3rem;
   }
 
-  .tags { justify-content: flex-end; }
+  .bodyText {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .tags { justify-content: flex-start; }
+}
+
+/* ── Service Image in Expanded Body ────────────────────────────────────── */
+.bodyText {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.bodyImage {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--site-border);
+}
+
+.bodyImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.bodyImage:hover .bodyImg {
+  transform: scale(1.04);
+}
+
+@media (max-width: 1023px) {
+  .bodyImage {
+    max-width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-top: 1rem;
+  }
 }
 
 /* ── Skeletons, Errors & Empty states ──────────────────────────────────── */

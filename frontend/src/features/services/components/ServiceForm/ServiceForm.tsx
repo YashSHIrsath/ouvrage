@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { Save, RotateCcw, AlertTriangle } from 'lucide-react'
 import { SectionCard, AdminButton } from '@/components/ui'
 import { AdminInput, AdminTextarea, AdminSelect } from '@/components/forms/admin'
+import { TagInput } from '@/components/forms/TagInput/TagInput'
 import { UploadInput } from '@/components/forms/UploadInput/UploadInput'
 import { FormRow } from '@/components/forms/FormRow/FormRow'
 import type { Service, ServiceFormValues } from '../../types'
@@ -122,8 +123,8 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
       </div>
 
       <div className={styles.sections}>
-        <SectionCard title="General Details" description="Configure basic service identification and branding.">
-          {/* Row 1: Title | Subtitle | Status */}
+        {/* ── Section 1: General Details ──────────────────────────── */}
+        <SectionCard title="General Details" description="Configure basic service identification.">
           <FormRow>
             <AdminInput<ServiceFormValues>
               name="title"
@@ -132,12 +133,6 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
               placeholder="e.g. Building Construction"
               rules={{ required: 'Title is required.' }}
               required
-            />
-            <AdminInput<ServiceFormValues>
-              name="subtitle"
-              control={control}
-              label="Subtitle"
-              placeholder="e.g. Turnkey engineering & delivery"
             />
             <AdminSelect<ServiceFormValues>
               name="status"
@@ -151,13 +146,36 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
             />
           </FormRow>
 
-          {/* Row 2: Icon | Thumbnail Upload */}
+          {/* Tag-based Subtitle Input */}
+          <TagInput<ServiceFormValues>
+            name="subtitle"
+            control={control}
+            label="Subtitle Tags"
+            placeholder="e.g. Residential, Commercial, Industrial"
+            separator=" · "
+          />
+        </SectionCard>
+
+        {/* ── Section 2: Content ──────────────────────────────────── */}
+        <SectionCard title="Content" description="Description displayed on the website.">
+          <AdminTextarea<ServiceFormValues>
+            name="short_description"
+            control={control}
+            label="Short Description"
+            placeholder="A brief summary for previews & lists..."
+            rows={3}
+          />
+          {/* TODO: long_description — hidden for now, will be enabled when detail pages are built */}
+        </SectionCard>
+
+        {/* ── Section 3: Media & Branding ─────────────────────────── */}
+        <SectionCard title="Media & Branding" description="Icon and thumbnail used on the public website.">
           <FormRow>
             <AdminInput<ServiceFormValues>
               name="icon"
               control={control}
               label="Icon (Lucide Name)"
-              placeholder="e.g. Briefcase, Hammer, Grid"
+              placeholder="e.g. Briefcase, Hammer, Compass"
             />
             <UploadInput<ServiceFormValues>
               name="image"
@@ -170,23 +188,6 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
               setValue={setValue}
             />
           </FormRow>
-        </SectionCard>
-
-        <SectionCard title="Descriptions" description="Information displayed on the website.">
-          <AdminTextarea<ServiceFormValues>
-            name="short_description"
-            control={control}
-            label="Short Description"
-            placeholder="A brief summary for previews & lists..."
-            rows={2}
-          />
-          <AdminTextarea<ServiceFormValues>
-            name="long_description"
-            control={control}
-            label="Detailed Description"
-            placeholder="Full service overview for expanded accordion..."
-            rows={5}
-          />
         </SectionCard>
       </div>
     </form>

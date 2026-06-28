@@ -1,0 +1,106 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.required {
+  color: var(--color-error);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.625rem;
+  background: var(--color-bg-layout);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  cursor: text;
+  min-height: 40px;
+  transition: border-color 0.2s;
+}
+
+.container:focus-within {
+  border-color: var(--color-primary);
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(232, 98, 10, 0.12);
+  border: 1px solid rgba(232, 98, 10, 0.25);
+  border-radius: 4px;
+  animation: tagIn 0.15s ease-out;
+}
+
+@keyframes tagIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tagText {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  white-space: nowrap;
+}
+
+.tagRemove {
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1px;
+  border-radius: 3px;
+  opacity: 0.6;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.tagRemove:hover {
+  opacity: 1;
+  background: rgba(232, 98, 10, 0.15);
+}
+
+.input {
+  flex: 1;
+  min-width: 100px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  padding: 0.125rem 0;
+}
+
+.input::placeholder {
+  color: var(--color-text-quaternary);
+}
+
+.hint {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-quaternary);
+  letter-spacing: 0.02em;
+}

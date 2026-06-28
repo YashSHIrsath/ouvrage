@@ -149,12 +149,24 @@ export function ServicesSection() {
                 >
                   <div className={styles.bodyInner}>
                     <div className={styles.bodyContent}>
-                      <p className={styles.desc}>{description}</p>
-                      {tags.length > 0 && (
-                        <div className={styles.tags}>
-                          {tags.map((tag) => (
-                            <span key={tag} className={styles.tag}>{tag}</span>
-                          ))}
+                      <div className={styles.bodyText}>
+                        <p className={styles.desc}>{description}</p>
+                        {tags.length > 0 && (
+                          <div className={styles.tags}>
+                            {tags.map((tag) => (
+                              <span key={tag} className={styles.tag}>{tag}</span>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      {svc.image_url && (
+                        <div className={styles.bodyImage}>
+                          <img
+                            src={svc.image_url}
+                            alt={svc.title}
+                            className={styles.bodyImg}
+                            loading="lazy"
+                          />
                         </div>
                       )}
                     </div>
