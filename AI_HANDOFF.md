@@ -15,11 +15,11 @@ The website has two distinct parts:
 
 **Public website** — A fully dark, Figma-matched marketing site with 7 public pages. The aesthetic is intentionally industrial and architectural: sharp 0px radii, heavy condensed display typography, orange brand accent, dark backgrounds. It is permanently dark — not user-switchable.
 
-**Admin panel** — A CMS for the company's administrators to manage all website content (services, projects, testimonials, FAQ, team, contact messages, site settings, and theme). Currently scaffolded but not implemented.
+**Admin panel** — A CMS for the company's administrators to manage all website content (services, projects, testimonials, FAQ, team, contact messages, site settings, and theme). The **Services** module is fully implemented as a database-backed CMS reference module with optimistic drag reordering, preset canvas cropping, and route navigation guards.
 
 ## Current Development Stage
 
-**Phase 1 complete** — All public-facing UI is built with local static data files. No APIs exist yet. The admin panel is an empty shell. The next phase is backend development (Laravel API), followed by connecting the frontend to those APIs.
+**Phase 3 Stage 2 complete** — The Services module has been fully implemented with backend database persistence (Laravel 12, Eloquent, migrations, API validation, routes) and React frontend integration (TanStack Query hooks, drag-and-drop list sorting, aspect-ratio canvas cropper modal, beforeunload and route-change blockers for unsaved changes). It serves as the blueprint for all future CMS modules.
 
 ## Overall Architecture
 

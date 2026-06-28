@@ -4,27 +4,47 @@
    Admin panel uses var(--color-*) from ThemeProvider; public site uses --site-*.
    ═══════════════════════════════════════════════════════════════════════════ */
 
+/* ── Dark theme (default) ────────────────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --site-bg:        #0A0A08;
-  --site-surface:   #131310;
-  --site-surface-2: #1C1C19;
+  --site-bg:               #0A0A08;
+  --site-surface:          #131310;
+  --site-surface-2:        #1C1C19;
+  --site-surface-elevated: #0E0E0C; /* used for gradients starting above --site-bg */
+  --site-surface-glass:    rgba(19, 19, 16, 0.80); /* frosted-glass panels */
 
   /* Text */
-  --site-text:       #F0EBE3;
-  --site-text-muted: #7A756E;
+  --site-text:           #F0EBE3;
+  --site-text-muted:     #8A857E;   /* slightly lighter than before for better AA */
+  --site-text-secondary: rgba(240, 235, 227, 0.72);
+  --site-text-dim:       rgba(240, 235, 227, 0.65);
+  --site-text-caption:   rgba(240, 235, 227, 0.55);
+  --site-text-faint:     rgba(240, 235, 227, 0.40);
 
   /* Brand */
-  --site-primary: #E8620A;
-  --site-accent:  #C4912A;
+  --site-primary:     #E8620A;
+  --site-primary-dim: rgba(232, 98, 10, 0.50); /* logo bar, subtle tints */
+  --site-accent:      #C4912A;
 
-  /* Border */
-  --site-border: rgba(240, 235, 227, 0.08);
+  /* Borders / Strokes */
+  --site-border:       rgba(240, 235, 227, 0.08);
+  --site-stroke:       rgba(240, 235, 227, 0.28);
+  --site-stroke-mid:   rgba(240, 235, 227, 0.20);
+  --site-stroke-faint: rgba(240, 235, 227, 0.12);
 
   /* Radii */
   --site-radius: 0px;
 
-  /* Overlay helpers (background color at varying opacities) */
+  /* Text / surfaces for elements always rendered over dark photo overlays (never overridden by light theme) */
+  --site-text-on-dark:         #F0EBE3;
+  --site-text-muted-on-dark:   rgba(240, 235, 227, 0.65);
+  --site-text-caption-on-dark: rgba(240, 235, 227, 0.52);
+  --site-label-on-dark:        rgba(240, 235, 227, 0.45);
+  --site-border-on-dark:       rgba(240, 235, 227, 0.10);
+  --site-glass-dark:           rgba(19, 19, 16, 0.82);  /* always-dark frosted glass */
+  --site-field-bg:             rgba(10, 10, 8, 0.55);   /* form input background */
+
+  /* Dark image overlays — intentionally dark in BOTH themes (used on photos) */
   --site-overlay-96: rgba(10, 10, 8, 0.96);
   --site-overlay-90: rgba(10, 10, 8, 0.90);
   --site-overlay-80: rgba(10, 10, 8, 0.80);
@@ -33,10 +53,10 @@
   --site-overlay-38: rgba(10, 10, 8, 0.38);
   --site-overlay-20: rgba(10, 10, 8, 0.20);
 
-  /* Hollow / outlined text stroke */
-  --site-stroke: rgba(240, 235, 227, 0.28);
+  /* UI background — theme-sensitive (header, drawers) */
+  --site-header-bg: rgba(10, 10, 8, 0.96);
 
-  /* Subtle grid overlay (used in Hero + CTA sections) */
+  /* Subtle grid overlay */
   --site-grid-line: rgba(240, 235, 227, 0.025);
 
   /* Typography */
@@ -46,8 +66,49 @@
 
   /* Layout */
   --site-max-width:      1380px;
-  --site-px:             1.5rem;   /* 24px  — mobile horizontal padding */
-  --site-px-lg:          3.5rem;   /* 56px  — desktop horizontal padding */
+  --site-px:             1.5rem;
+  --site-px-lg:          3.5rem;
   --site-header-h:       72px;
   --site-header-h-mob:   64px;
+
+  /* Section vertical spacing */
+  --section-gap-large:  3rem;
+  --section-gap-medium: 2rem;
+  --section-gap-small:  1.25rem;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section-gap-large:  3.75rem;
+    --section-gap-medium: 3rem;
+    --section-gap-small:  1.5rem;
+  }
+}
+
+/* ── Light theme overrides ───────────────────────────────────────────────── */
+:root[data-theme="light"] {
+  --site-bg:               #F7F4F0;
+  --site-surface:          #FFFFFF;
+  --site-surface-2:        #EDE9E4;
+  --site-surface-elevated: #EDE9E4;
+  --site-surface-glass:    rgba(255, 255, 255, 0.88);
+
+  --site-text:           #1C1A18;
+  --site-text-muted:     #6B6560;
+  --site-text-secondary: rgba(28, 26, 24, 0.70);
+  --site-text-dim:       rgba(28, 26, 24, 0.65);
+  --site-text-caption:   rgba(28, 26, 24, 0.55);
+  --site-text-faint:     rgba(28, 26, 24, 0.40);
+
+  --site-border:       rgba(28, 26, 24, 0.10);
+  --site-stroke:       rgba(28, 26, 24, 0.32);
+  --site-stroke-mid:   rgba(28, 26, 24, 0.18);
+  --site-stroke-faint: rgba(28, 26, 24, 0.10);
+
+  --site-header-bg:  rgba(247, 244, 240, 0.96);
+  --site-field-bg:   rgba(28, 26, 24, 0.06);   /* form input background — light tint on white card */
+
+  --site-grid-line: rgba(28, 26, 24, 0.030);
+
+  /* Image overlays stay intentionally dark on photos in both themes */
 }

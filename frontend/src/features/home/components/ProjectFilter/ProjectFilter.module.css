@@ -1,0 +1,56 @@
+.outer {
+  border-top: 1px solid var(--site-border);
+  border-bottom: 1px solid var(--site-border);
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-block: 1.5rem;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  flex-shrink: 0;
+}
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pill {
+  padding: 0.375rem 1rem;
+  background: transparent;
+  border: 1px solid var(--site-border);
+  color: var(--site-text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.pill:hover {
+  border-color: var(--site-stroke-mid);
+  color: var(--site-text);
+}
+
+.pillActive {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  color: var(--site-bg);
+}
+
+.pillActive:hover {
+  background: rgba(232, 98, 10, 0.85);
+  border-color: rgba(232, 98, 10, 0.85);
+  color: var(--site-bg);
+}

@@ -13,7 +13,7 @@
 }
 
 .header.scrolled {
-  background: var(--site-overlay-96);
+  background: var(--site-header-bg);
   backdrop-filter: blur(10px);
   border-bottom-color: var(--site-border);
 }
@@ -56,7 +56,7 @@
 .logoBarShort {
   width: 6px;
   height: 18px;
-  background: rgba(232, 98, 10, 0.5);
+  background: var(--site-primary-dim);
 }
 
 .logoText {

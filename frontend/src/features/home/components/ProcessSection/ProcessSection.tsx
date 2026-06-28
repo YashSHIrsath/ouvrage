@@ -1,9 +1,12 @@
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { SiteContainer, SectionLabel } from '@/components/sections'
 import { PROCESS_STEPS } from '../../data/process'
 import blueprintImg from '@/assets/images/process-blueprint.jpg'
 import styles from './ProcessSection.module.css'
 
 export function ProcessSection() {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>()
+
   return (
     <section className={styles.section}>
       <SiteContainer>
@@ -18,11 +21,17 @@ export function ProcessSection() {
           </div>
         </div>
 
-        {/* Steps grid */}
-        <div className={styles.steps}>
+        <div className={styles.steps} ref={ref}>
           <div className={styles.connector} aria-hidden />
           {PROCESS_STEPS.map((step, i) => (
-            <div key={step.num} className={styles.step}>
+            <div
+              key={step.num}
+              className={
+                visible
+                  ? `${styles.step} ${styles.stepVisible} ${styles[`stepDelay${i}`]}`
+                  : styles.step
+              }
+            >
               <div
                 className={i === 0 ? `${styles.stepBox} ${styles.stepBoxActive}` : styles.stepBox}
               >
@@ -37,7 +46,6 @@ export function ProcessSection() {
           ))}
         </div>
 
-        {/* Blueprint image */}
         <div className={styles.blueprintWrap}>
           <img
             src={blueprintImg}

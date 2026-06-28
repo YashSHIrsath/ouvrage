@@ -1,6 +1,6 @@
 import { Input } from 'antd'
 import { Controller } from 'react-hook-form'
-import type { Control, FieldValues, Path } from 'react-hook-form'
+import type { Control, FieldValues, Path, RegisterOptions } from 'react-hook-form'
 import { Label } from '@/components/typography'
 import { cn } from '@/utils'
 import styles from './PasswordInput.module.css'
@@ -15,6 +15,7 @@ interface PasswordInputProps<T extends FieldValues = FieldValues> {
   hint?: string
   size?: 'small' | 'middle' | 'large'
   className?: string
+  rules?: RegisterOptions<T>
 }
 
 export function PasswordInput<T extends FieldValues = FieldValues>({
@@ -27,11 +28,13 @@ export function PasswordInput<T extends FieldValues = FieldValues>({
   hint,
   size = 'middle',
   className,
+  rules,
 }: PasswordInputProps<T>) {
   return (
     <Controller
       name={name}
       control={control}
+      rules={rules}
       render={({ field, fieldState }) => (
         <div className={cn(styles.field, className)}>
           {label && (

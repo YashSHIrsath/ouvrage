@@ -16,7 +16,7 @@ interface ThemeState {
 }
 
 const initialState = {
-  mode: 'light' as ThemeMode,
+  mode: 'dark' as ThemeMode,
   primaryColor: themeDefaults.primaryColor,
   borderRadius: themeDefaults.borderRadius,
   fontFamily: themeDefaults.fontFamily,

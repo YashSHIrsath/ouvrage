@@ -1,7 +1,7 @@
 .section {
   border-top: 1px solid var(--site-border);
-  padding-top: 6rem;
-  background: linear-gradient(to bottom, #0E0E0C, var(--site-bg));
+  padding-top: var(--section-gap-large);
+  background: linear-gradient(to bottom, var(--site-surface-elevated), var(--site-bg));
 }
 
 .header {
@@ -43,7 +43,7 @@
   border-bottom: 1px solid var(--site-border);
   transition: background 0.3s ease;
 }
-.row:hover { background: rgba(240, 235, 227, 0.015); }
+.row:hover { background: var(--site-stroke-faint); }
 .rowActive { background: rgba(232, 98, 10, 0.04); }
 
 .rowHeader {
@@ -113,7 +113,7 @@
   justify-content: center;
   transition: background 0.3s ease, border-color 0.3s ease;
 }
-.toggle:hover { border-color: rgba(240, 235, 227, 0.2); }
+.toggle:hover { border-color: var(--site-stroke-mid); }
 .toggleOpen {
   background: var(--site-primary);
   border-color: var(--site-primary);
@@ -148,7 +148,7 @@
 .desc {
   font-family: var(--font-body);
   font-size: 14px;
-  color: rgba(240, 235, 227, 0.65);
+  color: var(--site-text-dim);
   line-height: 1.75;
   font-weight: 300;
   max-width: 42rem;
@@ -162,7 +162,7 @@
 
 .tag {
   padding: 0.25rem 0.75rem;
-  border: 1px solid rgba(232, 98, 10, 0.3);
+  border: 1px solid rgba(232, 98, 10, 0.28);
   color: var(--site-primary);
   font-family: var(--font-mono);
   font-size: 10px;
@@ -172,7 +172,7 @@
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-top: 9rem; }
+  .section { padding-top: var(--section-gap-large); }
 
   .header {
     flex-direction: row;

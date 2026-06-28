@@ -1,7 +1,7 @@
 .section {
-  background: #0D0D0B;
+  background: var(--site-bg);
   border-top: 1px solid var(--site-border);
-  padding-block: 6rem 11rem;
+  padding-block: var(--section-gap-large);
 }
 
 .header {
@@ -31,9 +31,21 @@
   position: relative;
   overflow: hidden;
   background: var(--site-surface);
-  cursor: pointer;
   aspect-ratio: 3 / 4;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
+
+.cardVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cardDelay0 { transition-delay: 0ms; }
+.cardDelay1 { transition-delay: 100ms; }
+.cardDelay2 { transition-delay: 200ms; }
+.cardDelay3 { transition-delay: 300ms; }
 
 .cardImg {
   width: 100%;
@@ -87,11 +99,15 @@
   flex-direction: column;
   justify-content: flex-end;
   padding: 1.25rem;
-  background: rgba(232, 98, 10, 0.88);
+  background: rgba(232, 98, 10, 0.68);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transform: translateY(8px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
-.card:hover .overlay { opacity: 1; }
+.card:hover .overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
 
 .overlayExp {
   font-family: var(--font-mono);
@@ -118,26 +134,10 @@
   margin-top: 0.25rem;
 }
 
-.overlayLink {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.25rem;
-}
-
-.overlayIcon { color: var(--site-bg); }
-
-.overlayLinkText {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--site-bg);
-}
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section { padding-block: var(--section-gap-large); }
 
   .grid { grid-template-columns: repeat(4, 1fr); }
 }

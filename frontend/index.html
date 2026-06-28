@@ -4,7 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <title>BuildCo — Premium Construction & Development</title>
+    <!-- Anti-flash: apply saved theme before React mounts to prevent FOUC -->
+    <script>
+      try {
+        var s = JSON.parse(localStorage.getItem('theme-store') || '{}');
+        var m = (s.state && s.state.mode) || 'dark';
+        document.documentElement.setAttribute('data-theme', m);
+      } catch(e) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

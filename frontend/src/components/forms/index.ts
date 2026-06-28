@@ -4,3 +4,8 @@ export { SelectInput } from './SelectInput/SelectInput'
 export type { SelectOption } from './SelectInput/SelectInput'
 export { PasswordInput } from './PasswordInput/PasswordInput'
 export { SwitchInput } from './SwitchInput/SwitchInput'
+export { UploadInput } from './UploadInput/UploadInput'
+export { FormRow } from './FormRow/FormRow'
+
+// Admin-namespace aliases (same components, clear admin boundary)
+export { AdminInput, AdminTextarea, AdminSelect } from './admin'

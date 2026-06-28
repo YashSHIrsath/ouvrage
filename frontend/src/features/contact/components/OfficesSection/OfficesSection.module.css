@@ -1,0 +1,87 @@
+.section {
+  border-top: 1px solid var(--site-border);
+  padding-block: var(--section-gap-medium);
+  background: var(--site-surface);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  margin-bottom: 2.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border: 1px solid var(--site-border);
+}
+
+.card {
+  padding: 2rem 1.75rem;
+  border-bottom: 1px solid var(--site-border);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card:last-child { border-bottom: none; }
+
+.cardHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.city {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--site-text);
+}
+
+.country {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--site-primary);
+}
+
+.address {
+  font-style: normal;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--site-text-muted);
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.contactLine {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  color: var(--site-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .section { padding-block: var(--section-gap-medium); }
+
+  .grid { grid-template-columns: repeat(3, 1fr); }
+
+  .card {
+    border-bottom: none;
+    border-right: 1px solid var(--site-border);
+  }
+
+  .card:last-child { border-right: none; }
+}

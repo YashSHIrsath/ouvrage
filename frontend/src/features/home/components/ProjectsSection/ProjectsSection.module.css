@@ -1,6 +1,6 @@
 .section {
   background: var(--site-bg);
-  padding-block: 6rem 11rem;
+  padding-block: var(--section-gap-large);
 }
 
 .header {
@@ -287,7 +287,7 @@
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section { padding-block: var(--section-gap-large); }
 
   .topGrid { grid-template-columns: 1.45fr 1fr; }
 

@@ -1,6 +1,6 @@
 import { Input } from 'antd'
 import { Controller } from 'react-hook-form'
-import type { Control, FieldValues, Path } from 'react-hook-form'
+import type { Control, FieldValues, Path, RegisterOptions } from 'react-hook-form'
 import type { ReactNode } from 'react'
 import { Label } from '@/components/typography'
 import { cn } from '@/utils'
@@ -18,6 +18,7 @@ interface TextInputProps<T extends FieldValues = FieldValues> {
   suffix?: ReactNode
   size?: 'small' | 'middle' | 'large'
   className?: string
+  rules?: RegisterOptions<T>
 }
 
 export function TextInput<T extends FieldValues = FieldValues>({
@@ -32,11 +33,13 @@ export function TextInput<T extends FieldValues = FieldValues>({
   suffix,
   size = 'middle',
   className,
+  rules,
 }: TextInputProps<T>) {
   return (
     <Controller
       name={name}
       control={control}
+      rules={rules}
       render={({ field, fieldState }) => (
         <div className={cn(styles.field, className)}>
           {label && (

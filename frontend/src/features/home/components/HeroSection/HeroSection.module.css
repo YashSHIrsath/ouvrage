@@ -129,7 +129,7 @@
   border: 1px solid var(--site-border);
   transition: border-color 0.2s ease;
 }
-.ctaSecondary:hover { border-color: rgba(240, 235, 227, 0.25); }
+.ctaSecondary:hover { border-color: var(--site-stroke-mid); }
 
 .scrollCue {
   display: none;
@@ -141,7 +141,7 @@
 .scrollBox {
   width: 1.25rem;
   height: 2.25rem;
-  border: 1px solid rgba(240, 235, 227, 0.35);
+  border: 1px solid var(--site-stroke);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -219,7 +219,7 @@
   right: 2.5rem;
   padding: 1.25rem;
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(240, 235, 227, 0.18);
+  border: 1px solid var(--site-stroke-faint);
   background: var(--site-overlay-72);
 }
 
@@ -237,7 +237,7 @@
   font-size: 1.25rem;
   font-weight: 900;
   text-transform: uppercase;
-  color: var(--site-text);
+  color: var(--site-text-on-dark);
 }
 
 .badgeMeta {
@@ -250,11 +250,11 @@
 .badgeMetaText {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--site-text-muted);
+  color: var(--site-text-muted-on-dark);
 }
 
 .badgeDot {
-  color: rgba(240, 235, 227, 0.4);
+  color: var(--site-text-faint);
 }
 
 /* ── Stats bar ───────────────────────────────────────────────────────────── */
@@ -262,8 +262,7 @@
   position: relative;
   z-index: 10;
   border-top: 1px solid var(--site-border);
-  background: rgba(19, 19, 16, 0.65);
-  backdrop-filter: blur(8px);
+  background: var(--site-surface);
 }
 
 .statsGrid {
@@ -272,7 +271,7 @@
 }
 
 .statItem {
-  padding: 1.25rem 0;
+  padding: 1.25rem 1rem;
   border-right: 1px solid var(--site-border);
 }
 .statItem:nth-child(2n) { border-right: none; }
@@ -315,7 +314,7 @@
   .statsGrid { grid-template-columns: repeat(4, 1fr); }
 
   .statItem {
-    padding: 1.75rem 0;
+    padding: 1.75rem 1.5rem;
     border-right: 1px solid var(--site-border);
   }
   .statItem:nth-child(2n) { border-right: 1px solid var(--site-border); }

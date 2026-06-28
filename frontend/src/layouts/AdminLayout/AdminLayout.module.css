@@ -1,18 +1,81 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   ADMIN LAYOUT
+   Sidebar (fixed left) + main column (topbar + content).
+   Sidebar width is synchronised between this file and Sidebar.module.css.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
 .layout {
-  min-height: 100vh;
-}
+  --sidebar-w:           240px;
+  --sidebar-collapsed-w: 64px;
+  --topbar-h:            56px;
 
-.sider {
-  overflow-y: auto;
-}
-
-.header {
   display: flex;
-  align-items: center;
-  padding: 0 var(--space-6);
+  min-height: 100vh;
+  background: var(--site-bg);
 }
 
+/* ── Main column ─────────────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--sidebar-w);
+  transition: margin-left 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.layout.collapsed .main {
+  margin-left: var(--sidebar-collapsed-w);
+}
+
+/* ── Content area ────────────────────────────────────────────────────────── */
 .content {
-  padding: var(--space-6);
+  flex: 1;
+  padding: 2rem;
   overflow-y: auto;
+  min-height: 0;
+}
+
+/* ── Mobile overlay ──────────────────────────────────────────────────────── */
+.overlay {
+  display: none;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* No margin offset — sidebar slides over content */
+  .main {
+    margin-left: 0;
+  }
+
+  .layout.collapsed .main {
+    margin-left: 0;
+  }
+
+  /* Full-width content */
+  .content {
+    padding: 1.25rem 1rem;
+  }
+
+  /* Overlay */
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    background: transparent;
+    pointer-events: none;
+    transition: background 0.25s ease;
+  }
+
+  .layout.mobileOpen .overlay {
+    background: rgba(0, 0, 0, 0.55);
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 1023px) and (min-width: 768px) {
+  .content {
+    padding: 1.5rem;
+  }
 }

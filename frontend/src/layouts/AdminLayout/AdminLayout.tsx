@@ -1,25 +1,37 @@
-import { Layout } from 'antd'
 import { Outlet } from 'react-router-dom'
+import { cn } from '@/utils'
+import { useSidebarStore } from '@/stores/sidebarStore'
+import { Sidebar } from './Sidebar/Sidebar'
+import { Topbar } from './Topbar/Topbar'
 import styles from './AdminLayout.module.css'
 
-const { Sider, Header, Content } = Layout
-
 export function AdminLayout() {
+  const { isCollapsed, isMobileOpen, closeMobile } = useSidebarStore()
+
   return (
-    <Layout className={styles.layout}>
-      <Sider className={styles.sider} width={240}>
-        {/* Sidebar — Phase 2 */}
-      </Sider>
+    <div
+      className={cn(
+        styles.layout,
+        isCollapsed  && styles.collapsed,
+        isMobileOpen && styles.mobileOpen,
+      )}
+    >
+      <Sidebar />
 
-      <Layout>
-        <Header className={styles.header}>
-          {/* Admin header — Phase 2 */}
-        </Header>
+      {/* Mobile overlay — blocks content behind the open drawer */}
+      <div
+        className={styles.overlay}
+        onClick={closeMobile}
+        aria-hidden="true"
+      />
 
-        <Content className={styles.content}>
+      {/* Main: topbar + scrollable content */}
+      <div className={styles.main}>
+        <Topbar />
+        <main className={styles.content}>
           <Outlet />
-        </Content>
-      </Layout>
-    </Layout>
+        </main>
+      </div>
+    </div>
   )
 }

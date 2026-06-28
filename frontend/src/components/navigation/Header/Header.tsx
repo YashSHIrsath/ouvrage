@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Menu, ArrowUpRight } from 'lucide-react'
+import { Menu, ArrowUpRight, Sun, Moon } from 'lucide-react'
 import { SiteContainer } from '@/components/sections'
 import { cn } from '@/utils'
+import { useThemeStore } from '@/stores/themeStore'
 import { NAV_LINKS } from '../navLinks'
 import { NavItem } from '../NavItem/NavItem'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
@@ -12,12 +13,15 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
+  const { mode, setMode } = useThemeStore()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  const toggleTheme = () => setMode(mode === 'dark' ? 'light' : 'dark')
 
   return (
     <>
@@ -40,6 +44,14 @@ export function Header() {
 
             <div className={styles.actions}>
               <button
+                className={styles.iconBtn}
+                onClick={toggleTheme}
+                aria-label={mode === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              >
+                {mode === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+              </button>
+
+              <button
                 className={`${styles.iconBtn} ${styles.menuBtn}`}
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open navigation menu"
@@ -49,7 +61,7 @@ export function Header() {
 
               <button
                 className={styles.ctaBtn}
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/contact?enquiry=quote')}
               >
                 Get a Quote <ArrowUpRight size={13} />
               </button>

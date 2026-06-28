@@ -2,7 +2,7 @@ export { lightTheme } from './lightTheme'
 export { darkTheme } from './darkTheme'
 
 export const themeDefaults = {
-  primaryColor: '#1677ff',
-  borderRadius: 6,
+  primaryColor: '#E8620A',
+  borderRadius: 4,
   fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
 } as const

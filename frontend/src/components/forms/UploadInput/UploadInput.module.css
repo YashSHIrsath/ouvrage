@@ -1,0 +1,145 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.hiddenInput {
+  display: none;
+}
+
+/* ── Upload area ─────────────────────────────────────────────────────────── */
+.uploadArea {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1.5px dashed var(--color-border-secondary);
+  transition: border-color 0.18s ease;
+  min-height: 120px;
+}
+
+.uploadArea.hasError {
+  border-color: var(--color-error);
+}
+
+.uploadArea.hasImage {
+  border-style: solid;
+  border-color: var(--color-border-secondary);
+  min-height: unset;
+}
+
+/* ── Empty zone ──────────────────────────────────────────────────────────── */
+.zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: 120px;
+  padding: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.18s ease;
+}
+
+.zone:hover {
+  background: var(--color-bg-mask);
+}
+
+.zone:hover .zoneIcon {
+  color: var(--site-primary);
+}
+
+.zoneIcon {
+  color: var(--color-text-disabled);
+  transition: color 0.18s ease;
+}
+
+.zoneText {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.zoneCta {
+  color: var(--site-primary);
+  font-weight: 600;
+}
+
+.zoneHint {
+  font-size: 0.75rem;
+  color: var(--color-text-disabled);
+}
+
+/* ── Image preview ───────────────────────────────────────────────────────── */
+.preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previewImg {
+  display: block;
+  max-width: 100%;
+  max-height: 160px;
+  object-fit: contain;
+  margin: 0 auto;
+}
+
+.previewOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 0.18s ease;
+}
+
+.preview:hover .previewOverlay {
+  opacity: 1;
+}
+
+.changeBtn,
+.removeBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.changeBtn:hover {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+}
+
+.removeBtn:hover {
+  background: #ef4444;
+  border-color: #ef4444;
+}
+
+/* ── Field messages ──────────────────────────────────────────────────────── */
+.error {
+  font-size: 0.75rem;
+  color: var(--color-error);
+  line-height: 1.4;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}

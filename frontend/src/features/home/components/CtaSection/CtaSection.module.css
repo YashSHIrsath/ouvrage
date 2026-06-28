@@ -1,7 +1,8 @@
 .section {
   position: relative;
   border-top: 1px solid var(--site-border);
-  padding-block: 6rem 11rem;
+  padding-top: var(--section-gap-large);
+  padding-bottom: var(--section-gap-small);
   overflow: hidden;
 }
 
@@ -43,14 +44,14 @@
   margin-top: 2rem;
 }
 
-/* ── Left ───────────────────────────────────────────────────────────────── */
+/* ── Left — always over dark photo, stays light in both themes ───────────── */
 .headline {
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(3.25rem, 7vw, 6.75rem);
   letter-spacing: -0.025em;
   text-transform: uppercase;
-  color: var(--site-text);
+  color: var(--site-text-on-dark);
   line-height: 0.95;
   margin: 0 0 2rem;
 }
@@ -60,7 +61,7 @@
 .subtitle {
   font-family: var(--font-body);
   font-size: 15px;
-  color: rgba(240, 235, 227, 0.55);
+  color: var(--site-text-caption-on-dark);
   max-width: 28rem;
   line-height: 1.7;
   font-weight: 300;
@@ -89,17 +90,28 @@
 .contactText {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: var(--site-text-muted);
+  color: var(--site-text-muted-on-dark);
 }
 
 .contactLabel { color: var(--site-primary); }
 
-/* ── Form ───────────────────────────────────────────────────────────────── */
+/* ── Form wrapper — theme-sensitive (white in light, dark glass in dark) ──── */
 .formWrap {
   border: 1px solid var(--site-border);
   padding: 1.75rem;
   backdrop-filter: blur(12px);
-  background: rgba(19, 19, 16, 0.8);
+  background: var(--site-surface-glass);
+  transition: border-color 0.3s ease;
+}
+
+.formWrapHighlighted {
+  animation: formGlow 2.4s ease-out forwards;
+}
+
+@keyframes formGlow {
+  0%   { border-color: var(--site-primary); box-shadow: 0 0 24px rgba(232, 98, 10, 0.25); }
+  55%  { border-color: var(--site-primary); box-shadow: 0 0 24px rgba(232, 98, 10, 0.25); }
+  100% { border-color: var(--site-border);  box-shadow: none; }
 }
 
 .formTitle {
@@ -117,13 +129,68 @@
   gap: 0.875rem;
 }
 
-/* ── Field group (label + input + error) ─────────────────────────────────── */
+/* ── 2-column row for paired fields ─────────────────────────────────────── */
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.875rem;
+}
+
+/* ── Standard field group (label → select → error) ───────────────────────── */
 .fieldGroup {
   display: flex;
   flex-direction: column;
   gap: 0.375rem;
 }
 
+/* ── Floating label field ────────────────────────────────────────────────── */
+.fieldFloat {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Input inside a floating-label container gets extra top padding */
+.fieldFloat .field {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+/* Textarea inside a floating-label container */
+.fieldFloat .textarea {
+  padding-top: 1.625rem;
+}
+
+/* The label floats above — uses theme-sensitive muted color */
+.fieldFloat .fieldLabel {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--site-text-muted);
+  transition: top 0.18s ease, font-size 0.18s ease, letter-spacing 0.18s ease,
+              text-transform 0.18s ease, color 0.18s ease;
+  pointer-events: none;
+}
+
+/* Float the label up when the input has content or is focused */
+.fieldFloat .field:focus ~ .fieldLabel,
+.fieldFloat .field:not(:placeholder-shown) ~ .fieldLabel {
+  top: 0.45rem;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--site-primary);
+}
+
+/* Error message must appear after the label in the stacking order */
+.fieldFloat .fieldError {
+  margin-top: 0.25rem;
+}
+
+/* ── Shared label + error ────────────────────────────────────────────────── */
 .fieldLabel {
   font-family: var(--font-mono);
   font-size: 10px;
@@ -144,10 +211,10 @@
   color: var(--site-primary);
 }
 
-/* ── Input / select / textarea ───────────────────────────────────────────── */
+/* ── Input / select / textarea base ─────────────────────────────────────── */
 .field {
   width: 100%;
-  background: rgba(10, 10, 8, 0.5);
+  background: var(--site-field-bg);
   border: 1px solid var(--site-border);
   padding: 0.875rem 1rem;
   font-family: var(--font-mono);
@@ -156,8 +223,9 @@
   transition: border-color 0.2s ease;
   appearance: none;
 }
-.field::placeholder { color: rgba(122, 117, 110, 0.45); }
-/* Custom border focus replaces global outline for these inputs */
+
+.field::placeholder { color: transparent; }
+
 .field:focus {
   border-color: var(--site-primary);
   outline: none;
@@ -165,6 +233,7 @@
 
 .textarea { resize: none; }
 
+/* ── Submit ─────────────────────────────────────────────────────────────── */
 .submitBtn {
   width: 100%;
   display: flex;
@@ -173,7 +242,7 @@
   gap: 0.625rem;
   padding: 1rem;
   background: var(--site-primary);
-  color: var(--site-bg);
+  color: #0A0A08;
   font-family: var(--font-mono);
   font-size: 11px;
   font-weight: 700;
@@ -182,6 +251,7 @@
   border: none;
   cursor: pointer;
   transition: background 0.2s ease, opacity 0.2s ease;
+  margin-top: 0.25rem;
 }
 .submitBtn:hover:not(:disabled) { background: rgba(232, 98, 10, 0.85); }
 .submitBtn:disabled {
@@ -189,7 +259,7 @@
   cursor: not-allowed;
 }
 
-/* Success state */
+/* ── Success ─────────────────────────────────────────────────────────────── */
 .success {
   padding: 2rem 0;
 }
@@ -213,7 +283,10 @@
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section {
+    padding-top: var(--section-gap-large);
+    padding-bottom: var(--section-gap-small);
+  }
 
   .layout {
     grid-template-columns: 1fr 1fr;
@@ -221,4 +294,6 @@
   }
 
   .formWrap { padding: 2.5rem; }
+
+  .fieldRow { grid-template-columns: 1fr 1fr; }
 }

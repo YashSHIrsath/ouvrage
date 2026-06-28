@@ -1,0 +1,172 @@
+/* ── Page shell ──────────────────────────────────────────────────────────── */
+.page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 4rem 1rem 2rem;
+
+  background-color: var(--site-bg);
+  background-image:
+    linear-gradient(var(--site-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--site-grid-line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ── Card ────────────────────────────────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--site-surface);
+  border: 1px solid var(--site-stroke-faint);
+  border-top: 3px solid var(--site-primary);
+  border-radius: 0 0 6px 6px;
+  padding: 2.5rem 2.5rem 2.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  box-shadow:
+    0 8px 48px rgba(0, 0, 0, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.14);
+  animation: cardSlideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes cardSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Brand row ───────────────────────────────────────────────────────────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoMark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.logoBar {
+  width: 6px;
+  height: 26px;
+  background: var(--site-primary);
+}
+
+.logoBarShort {
+  width: 6px;
+  height: 17px;
+  background: var(--site-primary-dim);
+}
+
+.brandText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brandName {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--site-text-caption);
+  line-height: 1;
+}
+
+/* Theme toggle — inside the brand row, far right */
+.themeToggle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--site-text-caption);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.themeToggle:hover {
+  color: var(--site-text);
+  border-color: var(--site-stroke-mid);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--site-stroke-faint);
+}
+
+/* ── Heading ─────────────────────────────────────────────────────────────── */
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 2.375rem;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  line-height: 1;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--site-text-caption);
+  line-height: 1.5;
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  font-size: 0.75rem;
+  color: var(--site-text-faint);
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .card {
+    padding: 2rem 1.5rem 2.25rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}

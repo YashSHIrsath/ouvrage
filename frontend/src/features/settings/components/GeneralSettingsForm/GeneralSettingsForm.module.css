@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 900px;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contactFields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.loadingText {
+  font-size: 0.875rem;
+  color: var(--site-text-dim);
+}

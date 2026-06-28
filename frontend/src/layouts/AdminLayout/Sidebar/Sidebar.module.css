@@ -1,0 +1,240 @@
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  background: var(--site-surface);
+  border-right: 1px solid var(--site-stroke-faint);
+  overflow: hidden;                                       /* clips text on collapse */
+  transition: width 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sidebar.collapsed {
+  width: 64px;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.75rem;
+  height: 56px;                                           /* matches topbar height */
+  flex-shrink: 0;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.logoMark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.logoBar {
+  width: 5px;
+  height: 22px;
+  background: var(--site-primary);
+}
+
+.logoBarShort {
+  width: 5px;
+  height: 14px;
+  background: var(--site-primary-dim);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  opacity: 1;
+  transition: opacity 0.15s ease;
+  white-space: nowrap;
+}
+
+.sidebar.collapsed .brandText {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.brandName {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  line-height: 1;
+}
+
+.brandSub {
+  font-size: 0.625rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--site-text-caption);
+  line-height: 1;
+}
+
+/* Collapse toggle button */
+.collapseBtn {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--site-text-caption);
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+
+.collapseBtn:hover {
+  color: var(--site-text);
+  border-color: var(--site-stroke-mid);
+  background: var(--site-stroke-faint);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--site-stroke-faint);
+  flex-shrink: 0;
+}
+
+/* ── Navigation ──────────────────────────────────────────────────────────── */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0.5rem 0.5rem;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Shared nav item style (used by NavLink and logout button) */
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.625rem 0.75rem;
+  border-radius: 4px;
+  border: none;
+  background: none;
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--site-text-dim);
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  white-space: nowrap;
+  transition: color 0.18s ease, background 0.18s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.navItem:hover {
+  color: var(--site-text);
+  background: var(--site-stroke-faint);
+}
+
+/* Active state */
+.navItem.active {
+  color: var(--site-primary);
+  background: rgba(232, 98, 10, 0.08);
+  border-left: 2px solid var(--site-primary);
+  padding-left: calc(0.75rem - 2px); /* compensate for the left border */
+}
+
+/* Icon */
+.navIcon {
+  flex-shrink: 0;
+  transition: color 0.18s ease;
+}
+
+/* Label */
+.navLabel {
+  flex: 1;
+  opacity: 1;
+  transition: opacity 0.12s ease;
+  overflow: hidden;
+}
+
+/* ── Collapsed state ─────────────────────────────────────────────────────── */
+.sidebar.collapsed .navLabel {
+  opacity: 0;
+  width: 0;
+  flex: 0;
+}
+
+.sidebar.collapsed .navItem {
+  justify-content: center;
+  padding: 0.625rem;
+  gap: 0;
+  border-left: none;
+  padding-left: 0.625rem;
+}
+
+/* Keep orange indicator as bottom border when collapsed */
+.sidebar.collapsed .navItem.active {
+  border-left: none;
+  border-bottom: 2px solid var(--site-primary);
+  padding-bottom: calc(0.625rem - 2px);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0.5rem 0.5rem 0.75rem;
+}
+
+.logoutBtn {
+  color: var(--site-text-caption);
+}
+
+.logoutBtn:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.06);
+}
+
+/* ── Mobile: sidebar is a fixed overlay drawer ───────────────────────────── */
+@media (max-width: 767px) {
+  .sidebar {
+    transform: translateX(-100%);
+    width: 240px;                                         /* always full on mobile */
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.32);
+    transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .sidebar.collapsed {
+    width: 240px;                                         /* no icon-only on mobile */
+    transform: translateX(-100%);
+  }
+
+  /* mobileOpen is applied via a data attribute on the sidebar */
+  .sidebar[data-mobile-open="true"] {
+    transform: translateX(0);
+  }
+}

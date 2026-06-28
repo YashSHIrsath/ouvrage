@@ -1,0 +1,123 @@
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.topbar {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 1.5rem;
+  background: var(--site-surface);
+  border-bottom: 1px solid var(--site-stroke-faint);
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* ── Left: hamburger (mobile only) ──────────────────────────────────────── */
+.hamburger {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* ── Page title ──────────────────────────────────────────────────────────── */
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  flex: 1;
+}
+
+/* ── Right actions ───────────────────────────────────────────────────────── */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* User name */
+.userName {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--site-text-dim);
+  padding: 0 0.5rem;
+  white-space: nowrap;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 639px) {
+  .userName {
+    display: none;
+  }
+}
+
+/* Generic icon button */
+.iconBtn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--site-text-caption);
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.iconBtn:hover {
+  color: var(--site-text);
+  border-color: var(--site-stroke-mid);
+  background: var(--site-stroke-faint);
+}
+
+/* Logout button */
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0 0.875rem;
+  height: 34px;
+  background: none;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--site-text-caption);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  font-family: var(--font-body);
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.logoutBtn:hover {
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.06);
+}
+
+.logoutLabel {
+  white-space: nowrap;
+}
+
+@media (max-width: 479px) {
+  .logoutLabel {
+    display: none;
+  }
+
+  .logoutBtn {
+    width: 34px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+}

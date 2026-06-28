@@ -1,30 +1,11 @@
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { SiteContainer, SectionLabel } from '@/components/sections'
+import { VALUES } from '../../data/values'
 import styles from './MissionValuesSection.module.css'
 
-const VALUES = [
-  {
-    num: '01',
-    title: 'Precision',
-    body: 'Engineering decisions made at the micro level determine outcomes at the macro scale. We execute every detail with the same rigor we bring to the whole.',
-  },
-  {
-    num: '02',
-    title: 'Integrity',
-    body: 'We give honest assessments, honor commitments, and take responsibility when things are difficult. Our clients trust us because we have earned that trust.',
-  },
-  {
-    num: '03',
-    title: 'Scale',
-    body: 'We are built for complexity. Large footprint, multi-stakeholder, technically challenging projects are where our integrated model delivers its greatest advantage.',
-  },
-  {
-    num: '04',
-    title: 'Partnership',
-    body: 'We think of ourselves as extensions of our clients\' teams. Their goals become our goals. Their success is our measure of success.',
-  },
-]
-
 export function MissionValuesSection() {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>()
+
   return (
     <section className={styles.section}>
       <SiteContainer>
@@ -46,9 +27,16 @@ export function MissionValuesSection() {
           </p>
         </div>
 
-        <div className={styles.grid}>
-          {VALUES.map((v) => (
-            <div key={v.num} className={styles.card}>
+        <div className={styles.grid} ref={ref}>
+          {VALUES.map((v, i) => (
+            <div
+              key={v.num}
+              className={
+                visible
+                  ? `${styles.card} ${styles.cardVisible} ${styles[`cardDelay${i}`]}`
+                  : styles.card
+              }
+            >
               <div className={styles.num}>{v.num}</div>
               <div className={styles.valueTitle}>{v.title}</div>
               <p className={styles.valueBody}>{v.body}</p>

@@ -1,7 +1,7 @@
 .section {
   background: var(--site-bg);
   border-top: 1px solid var(--site-border);
-  padding-block: 6rem 11rem;
+  padding-block: var(--section-gap-large);
 }
 
 .layout {
@@ -100,7 +100,7 @@
 }
 .navBtn:hover {
   background: var(--site-surface);
-  border-color: rgba(240, 235, 227, 0.2);
+  border-color: var(--site-stroke-mid);
 }
 
 .dots {
@@ -132,7 +132,7 @@
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section { padding-block: var(--section-gap-large); }
 
   .layout {
     grid-template-columns: auto 1fr;

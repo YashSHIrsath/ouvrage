@@ -17,7 +17,16 @@ export function HomePage() {
       <ServicesPreview />
       <ProjectsPreview />
       <TestimonialPreview />
-      <CtaBanner />
+      <CtaBanner
+        label="05 / Start Here"
+        title="READY TO BUILD SOMETHING"
+        titleHighlight="REMARKABLE?"
+        description="Whether you have a detailed brief or just a vision — we want to hear about it. Our team responds within 24 hours."
+        primaryLabel="Start a Project"
+        primaryTo="/contact"
+        secondaryLabel="View Our Work"
+        secondaryTo="/projects"
+      />
     </>
   )
 }

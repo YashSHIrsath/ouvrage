@@ -14,7 +14,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const navigate = useNavigate()
 
   const handleCta = () => {
-    navigate('/contact')
+    navigate('/contact?enquiry=quote')
     onClose()
   }
 

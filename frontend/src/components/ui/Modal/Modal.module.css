@@ -1,0 +1,56 @@
+/* Ant Design Modal content override via global selector */
+.modal :global(.ant-modal-content) {
+  padding: 0 !important;
+  background: var(--site-surface) !important;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 6px !important;
+  overflow: hidden;
+}
+
+/* ── Custom header ───────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.125rem 1.5rem;
+  border-bottom: 1px solid var(--site-stroke-faint);
+  background: var(--site-surface-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  line-height: 1.2;
+}
+
+.closeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: none;
+  border: 1px solid var(--site-stroke-faint);
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--site-text-caption);
+  transition: color 0.18s, border-color 0.18s, background 0.18s;
+  flex-shrink: 0;
+}
+
+.closeBtn:hover {
+  color: var(--site-text);
+  border-color: var(--site-stroke-mid);
+  background: var(--site-stroke-faint);
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────── */
+.body {
+  padding: 1.5rem;
+}

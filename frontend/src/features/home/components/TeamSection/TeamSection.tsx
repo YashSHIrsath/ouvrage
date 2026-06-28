@@ -1,9 +1,11 @@
-import { ArrowUpRight } from 'lucide-react'
+import { useScrollReveal } from '@/hooks/useScrollReveal'
 import { SiteContainer, SectionLabel } from '@/components/sections'
 import { TEAM } from '../../data/team'
 import styles from './TeamSection.module.css'
 
 export function TeamSection() {
+  const { ref, visible } = useScrollReveal<HTMLDivElement>()
+
   return (
     <section className={styles.section}>
       <SiteContainer>
@@ -16,9 +18,16 @@ export function TeamSection() {
           </h2>
         </div>
 
-        <div className={styles.grid}>
-          {TEAM.map((member) => (
-            <div key={member.name} className={styles.card}>
+        <div className={styles.grid} ref={ref}>
+          {TEAM.map((member, i) => (
+            <div
+              key={member.name}
+              className={
+                visible
+                  ? `${styles.card} ${styles.cardVisible} ${styles[`cardDelay${i}`]}`
+                  : styles.card
+              }
+            >
               <img
                 src={member.image}
                 alt={member.name}
@@ -26,21 +35,17 @@ export function TeamSection() {
               />
               <div className={styles.gradient} />
 
-              {/* Default info */}
+              {/* Default: name + role visible at bottom */}
               <div className={styles.info}>
                 <div className={styles.name}>{member.name}</div>
                 <div className={styles.role}>{member.role}</div>
               </div>
 
-              {/* Hover overlay */}
-              <div className={styles.overlay}>
+              {/* Hover overlay: reveals experience + full info; no navigation implied */}
+              <div className={styles.overlay} aria-hidden>
                 <div className={styles.overlayExp}>{member.experience} Experience</div>
                 <div className={styles.overlayName}>{member.name}</div>
                 <div className={styles.overlayRole}>{member.role}</div>
-                <div className={styles.overlayLink}>
-                  <ArrowUpRight size={13} className={styles.overlayIcon} />
-                  <span className={styles.overlayLinkText}>View Profile</span>
-                </div>
               </div>
             </div>
           ))}

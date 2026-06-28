@@ -1,7 +1,7 @@
 .section {
-  background: #0D0D0B;
+  background: var(--site-surface);
   border-top: 1px solid var(--site-border);
-  padding-block: 6rem 11rem;
+  padding-block: var(--section-gap-large);
 }
 
 .header {
@@ -41,7 +41,21 @@
 
 .step {
   position: relative;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
+
+.stepVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stepDelay0 { transition-delay: 0ms; }
+.stepDelay1 { transition-delay: 70ms; }
+.stepDelay2 { transition-delay: 140ms; }
+.stepDelay3 { transition-delay: 210ms; }
+.stepDelay4 { transition-delay: 280ms; }
 
 .stepBox {
   width: 4rem;
@@ -151,7 +165,7 @@
 }
 
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section { padding-block: var(--section-gap-large); }
 
   .steps { grid-template-columns: repeat(5, 1fr); gap: 1.5rem; }
 

@@ -1,18 +1,9 @@
 .section {
   position: relative;
   border-top: 1px solid var(--site-border);
-  padding-block: 7rem;
+  padding-top: var(--section-gap-large);
+  padding-bottom: var(--section-gap-small);
   overflow: hidden;
-}
-
-.gridBg {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--site-grid-line) 1px, transparent 1px),
-    linear-gradient(90deg, var(--site-grid-line) 1px, transparent 1px);
-  background-size: 80px 80px;
-  pointer-events: none;
 }
 
 .accentBar {
@@ -105,7 +96,10 @@
 
 /* ── Desktop ─────────────────────────────────────────────────────────────── */
 @media (min-width: 1024px) {
-  .section { padding-block: 11rem; }
+  .section {
+    padding-top: var(--section-gap-large);
+    padding-bottom: var(--section-gap-small);
+  }
 
   .layout {
     grid-template-columns: 1fr 1fr;

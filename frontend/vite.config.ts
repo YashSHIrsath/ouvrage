@@ -11,5 +11,17 @@ export default defineConfig({
   },
   server: {
     port: 5173,
+    proxy: {
+      // Proxy Sanctum CSRF cookie and API calls to Laravel so cookies are
+      // set for localhost:5173 — required for Sanctum SPA cookie auth to work
+      '/sanctum': {
+        target: 'http://localhost:8000',
+        changeOrigin: false,
+      },
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: false,
+      },
+    },
   },
 })

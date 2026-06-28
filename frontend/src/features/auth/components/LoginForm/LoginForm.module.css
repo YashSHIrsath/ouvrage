@@ -1,0 +1,54 @@
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.rememberRow {
+  display: flex;
+  align-items: center;
+}
+
+/* Mute checkbox label */
+.rememberRow :global(.ant-checkbox-wrapper) {
+  color: var(--site-text-dim);
+  font-size: 0.875rem;
+}
+
+/* ── Submit button — override Ant Design with brand orange ───────────────── */
+.submitRow :global(.ant-btn-primary) {
+  height: 48px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  transition: filter 0.2s ease, transform 0.12s ease;
+}
+
+.submitRow :global(.ant-btn-primary:not(:disabled):hover) {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  filter: brightness(1.12);
+}
+
+.submitRow :global(.ant-btn-primary:not(:disabled):active) {
+  transform: scale(0.985);
+  filter: brightness(0.94);
+}
+
+.submitRow :global(.ant-btn-primary:disabled),
+.submitRow :global(.ant-btn-primary.ant-btn-loading) {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  opacity: 0.65;
+}

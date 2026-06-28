@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { QueryProvider } from './QueryProvider'
 import { ThemeProvider } from './ThemeProvider'
+import { ToastContainer } from '@/components/ui'
 
 interface AppProvidersProps {
   children: ReactNode
@@ -11,6 +12,7 @@ export function AppProviders({ children }: AppProvidersProps) {
     <QueryProvider>
       <ThemeProvider>
         {children}
+        <ToastContainer />
       </ThemeProvider>
     </QueryProvider>
   )

@@ -1,5 +1,5 @@
 import { PageHero } from '@/components/sections'
-import { ServicesSection } from '@/features/home/components'
+import { ServicesSection, ProcessSection, CtaBanner } from '@/features/home/components'
 
 export function ServicesPage() {
   return (
@@ -13,6 +13,17 @@ export function ServicesPage() {
         subtitle="Five integrated disciplines, one accountable team. From concept to completion — architecture, engineering, construction, management, and consultation under one roof."
       />
       <ServicesSection />
+      <ProcessSection />
+      <CtaBanner
+        label="03 / Start a Project"
+        title="READY TO BUILD"
+        titleHighlight="SOMETHING GREAT?"
+        description="Tell us about your project. Our integrated team will respond within 24 hours with a clear path forward."
+        primaryLabel="Request a Proposal"
+        primaryTo="/contact"
+        secondaryLabel="View Our Projects"
+        secondaryTo="/projects"
+      />
     </>
   )
 }

@@ -1,0 +1,21 @@
+/* Applies admin typography on top of the base Button component */
+.adminButton,
+.adminButton :global(.ant-btn) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Ensure primary variant uses brand orange */
+.adminButton:global(.ant-btn-primary) {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  transition: filter 0.18s ease;
+}
+
+.adminButton:global(.ant-btn-primary:not(:disabled):hover) {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+  filter: brightness(1.1);
+}

@@ -1,7 +1,9 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/v1',
+  // Relative URL — requests go through the Vite dev proxy to Laravel.
+  // In production, set VITE_API_URL to the absolute API base (e.g. https://api.example.com/api/v1).
+  baseURL: import.meta.env.VITE_API_URL ?? '/api/v1',
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
