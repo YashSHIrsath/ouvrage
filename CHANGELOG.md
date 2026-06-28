@@ -5,6 +5,22 @@ Each stage records every issue resolved, files changed, and final status.
 
 ---
 
+## Phase 3 — Stage 3: Admin Services UI Refinements
+
+**Goal:** Refine the layout of the Services CMS module by implementing collapsible panel widths, search filters, status counters, top-sticky save bars, wider responsive grids, and drawer overlays.
+
+| Area | Change | Status |
+|------|--------|--------|
+| Frontend | Persistent Collapse Panel: Managed via Zustand `servicePanelStore.ts` persisting expanded (340px) vs collapsed (90px) layouts | Complete |
+| Frontend | Search & Stats: Added search text filters and active/inactive count badges above the services list | Complete |
+| Frontend | Collapsed layout: Compressed list item card to show grips and thumbnails only, with an Ant Design Tooltip title | Complete |
+| Frontend | Sticky Action Header: Form editor header styled sticky (`position: sticky; top: 0`) showing titles, dirty state badges, and save/discard buttons | Complete |
+| Frontend | Wider Form Grid: Form inputs arranged in 3 columns (Title \| Subtitle \| Status) and 2 columns (Icon \| Image Upload) | Complete |
+| Frontend | Responsive layout: Tablet forces narrow panel width, and mobile renders full list as a side drawer overlay | Complete |
+| Frontend | Topbar: Registered breadcrumb label `'Website / Services'` in routing map | Complete |
+
+---
+
 ## Phase 3 — Stage 2: Website CMS Integration (Services Blueprint)
 
 **Goal:** Implement database persistence, API endpoints, TanStack Query integration, drag-and-drop reordering, and preset image cropping for the Services CMS module.
