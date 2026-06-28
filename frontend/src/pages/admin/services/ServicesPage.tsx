@@ -18,7 +18,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
-import type { DragEndEvent } from '@dnd-kit/core'
+import type { DragEndEvent, Modifier } from '@dnd-kit/core'
 import {
   SortableContext,
   verticalListSortingStrategy,
@@ -26,6 +26,11 @@ import {
 } from '@dnd-kit/sortable'
 import { useBlocker } from 'react-router-dom'
 import styles from './ServicesPage.module.css'
+
+const restrictToVerticalAxis: Modifier = ({ transform }) => ({
+  ...transform,
+  x: 0,
+})
 
 export function ServicesPage() {
   const { data: services = [], isLoading, isError } = useServices()
@@ -250,6 +255,7 @@ export function ServicesPage() {
             sensors={sensors}
             collisionDetection={closestCenter}
             onDragEnd={handleDragEnd}
+            modifiers={[restrictToVerticalAxis]}
           >
             <div className={styles.listContainer}>
               {visibleServices.length === 0 ? (
