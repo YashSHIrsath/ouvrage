@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, ChevronLeft, ChevronRight, Search, Menu } from 'lucide-react'
 import { PageHeader, AdminButton } from '@/components/ui'
 import { ServiceForm } from '@/features/services/components/ServiceForm/ServiceForm'
 import type { Service, ServiceFormValues } from '@/features/services/types'
@@ -25,6 +25,8 @@ import {
   arrayMove,
 } from '@dnd-kit/sortable'
 import { useBlocker } from 'react-router-dom'
+import { useServicePanelStore } from '@/stores/servicePanelStore'
+import { Drawer } from 'antd'
 import styles from './ServicesPage.module.css'
 
 const restrictToVerticalAxis: Modifier = ({ transform }) => ({
@@ -37,6 +39,26 @@ export function ServicesPage() {
   const [selectedId, setSelectedId] = useState<string | number | null>(null)
   const [isFormDirty, setIsFormDirty] = useState(false)
   
+  // Collapse Pane persistent state
+  const { isCollapsed, toggleCollapsed } = useServicePanelStore()
+
+  // Search filter and responsive checks
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isTablet, setIsTablet] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
+  useEffect(() => {
+    const handleResize = () => {
+      const w = window.innerWidth
+      setIsMobile(w < 768)
+      setIsTablet(w >= 768 && w <= 1024)
+    }
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   // Local list state for optimistic updates
   const [localServices, setLocalServices] = useState<Service[]>([])
 
@@ -47,7 +69,7 @@ export function ServicesPage() {
     }
   }, [services])
 
-  // Blocker to guard route changes (sidebar navigations, browser navigation) when dirty
+  // Blocker to guard route changes when dirty
   const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       isFormDirty && currentLocation.pathname !== nextLocation.pathname
@@ -66,7 +88,7 @@ export function ServicesPage() {
     }
   }, [blocker.state])
 
-  // Blocker to guard window closures, tab refreshes when dirty
+  // Blocker to guard window closures when dirty
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isFormDirty) {
@@ -89,8 +111,18 @@ export function ServicesPage() {
 
   const [hasSelectedInitial, setHasSelectedInitial] = useState(false)
 
-  // Exclude status === 9 soft deleted items
-  const visibleServices = localServices.filter((s) => s.status !== 9)
+  // Filter out status === 9 soft deleted items
+  const nonDeletedServices = localServices.filter((s) => s.status !== 9)
+
+  // Filter based on search query
+  const visibleServices = nonDeletedServices.filter((s) =>
+    s.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
+  // Stats Counters
+  const totalCount = nonDeletedServices.length
+  const activeCount = nonDeletedServices.filter((s) => s.status === 1).length
+  const inactiveCount = nonDeletedServices.filter((s) => s.status === 0).length
 
   // Set initial selection once services load for the first time
   useEffect(() => {
@@ -110,6 +142,9 @@ export function ServicesPage() {
     }
     setSelectedId(id)
     setIsFormDirty(false)
+    if (isMobile) {
+      setDrawerOpen(false) // Close drawer on selection on mobile
+    }
   }
 
   const handleAddClick = () => {
@@ -120,11 +155,13 @@ export function ServicesPage() {
     }
     setSelectedId(null) // Reset selection for new service form
     setIsFormDirty(false)
+    if (isMobile) {
+      setDrawerOpen(false)
+    }
   }
 
   const handleFormSubmit = (values: ServiceFormValues) => {
     if (selectedId !== null) {
-      // Edit existing
       updateMutation.mutate(
         { id: selectedId, values },
         {
@@ -135,7 +172,6 @@ export function ServicesPage() {
         }
       )
     } else {
-      // Create new
       createMutation.mutate(values, {
         onSuccess: (created) => {
           setIsFormDirty(false) // reset dirty state immediately
@@ -185,7 +221,6 @@ export function ServicesPage() {
     // Build payload only for rows that have changed
     const payload: { id: string | number; sort_order: number }[] = []
     const updatedServices = localServices.map((service) => {
-      // Find where it sits in the reordered list
       const listIndex = reorderedList.findIndex((s) => s.id === service.id)
       if (listIndex !== -1) {
         const newOrder = listIndex + 1
@@ -197,16 +232,11 @@ export function ServicesPage() {
       return service
     })
 
-    // Sort updatedServices locally so the UI updates instantly
     const sortedServices = [...updatedServices].sort((a, b) => a.sort_order - b.sort_order)
-
-    // Apply optimistic state
     setLocalServices(sortedServices)
 
-    // Post to API, rollback on error
     reorderMutation.mutate(payload, {
       onError: () => {
-        // Rollback state to the last verified query cache services
         setLocalServices(services)
       },
     })
@@ -228,58 +258,162 @@ export function ServicesPage() {
     )
   }
 
+  const effectiveCollapsed = (isCollapsed || isTablet) && !isMobile
+
+  // Master List Render block
+  const renderList = (inDrawer = false) => {
+    const showCollapsed = effectiveCollapsed && !inDrawer
+
+    return (
+      <>
+        {showCollapsed ? (
+          <div className={styles.listHeaderCollapsed}>
+            <button
+              type="button"
+              className={styles.addIconBtn}
+              onClick={handleAddClick}
+              disabled={isSaving}
+              title="Add Service"
+            >
+              <Plus size={16} />
+            </button>
+            {!isTablet && (
+              <button
+                type="button"
+                className={styles.toggleBtn}
+                onClick={toggleCollapsed}
+                title="Expand Panel"
+              >
+                <ChevronRight size={16} />
+              </button>
+            )}
+          </div>
+        ) : (
+          <div className={styles.listHeader}>
+            <span className={styles.listTitle}>Services</span>
+            <div className={styles.headerActions}>
+              <AdminButton
+                variant="primary"
+                size="sm"
+                icon={<Plus size={14} />}
+                onClick={handleAddClick}
+                disabled={isSaving}
+              >
+                Add
+              </AdminButton>
+              {!inDrawer && (
+                <button
+                  type="button"
+                  className={styles.toggleBtn}
+                  onClick={toggleCollapsed}
+                  title="Collapse Panel"
+                >
+                  <ChevronLeft size={16} />
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Stats */}
+        {showCollapsed ? (
+          <div className={styles.statsContainerCollapsed} title={`Total: ${totalCount} | Active: ${activeCount} | Inactive: ${inactiveCount}`}>
+            <span className={styles.miniStat}>{totalCount}</span>
+          </div>
+        ) : (
+          <div className={styles.statsContainer}>
+            <div className={styles.statBox}>
+              <span className={styles.statVal}>{totalCount}</span>
+              <span className={styles.statLbl}>Total</span>
+            </div>
+            <div className={styles.statBox}>
+              <span className={styles.statVal}>{activeCount}</span>
+              <span className={styles.statLbl}>Active</span>
+            </div>
+            <div className={styles.statBox}>
+              <span className={styles.statVal}>{inactiveCount}</span>
+              <span className={styles.statLbl}>Inactive</span>
+            </div>
+          </div>
+        )}
+
+        {/* Search */}
+        {!showCollapsed && (
+          <div className={styles.searchBar}>
+            <Search size={14} className={styles.searchIcon} />
+            <input
+              type="text"
+              placeholder="Search services..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={styles.searchInput}
+            />
+          </div>
+        )}
+
+        {/* Drag & Drop Context */}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToVerticalAxis]}
+        >
+          <div className={styles.listContainer}>
+            {visibleServices.length === 0 ? (
+              <div className={styles.empty}>No matches found.</div>
+            ) : (
+              <SortableContext
+                items={visibleServices.map((s) => s.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {visibleServices.map((service) => (
+                  <SortableServiceItem
+                    key={service.id}
+                    service={service}
+                    isSelected={service.id === selectedId}
+                    isSaving={isSaving}
+                    onSelect={handleSelectService}
+                    onDelete={handleDeleteService}
+                    isCollapsed={showCollapsed}
+                  />
+                ))}
+              </SortableContext>
+            )}
+          </div>
+        </DndContext>
+      </>
+    )
+  }
+
   return (
     <div className={styles.page}>
       <PageHeader
         title="Services Management"
         description="Configure construction, development, and engineering consulting services."
+        className={styles.compactHeader}
       />
+
+      {/* Mobile Toggle Drawer Trigger */}
+      {isMobile && (
+        <div className={styles.mobileActions}>
+          <AdminButton
+            variant="default"
+            size="sm"
+            icon={<Menu size={14} />}
+            onClick={() => setDrawerOpen(true)}
+          >
+            Show Services List ({totalCount})
+          </AdminButton>
+        </div>
+      )}
 
       <div className={styles.splitLayout}>
         {/* ── Left Pane: Master List ──────────────────────── */}
-        <div className={styles.listPane}>
-          <div className={styles.listHeader}>
-            <span className={styles.listTitle}>Services ({visibleServices.length})</span>
-            <AdminButton
-              variant="primary"
-              size="sm"
-              icon={<Plus size={14} />}
-              onClick={handleAddClick}
-              disabled={isSaving}
-            >
-              Add Service
-            </AdminButton>
+        {!isMobile && (
+          <div className={`${styles.listPane} ${effectiveCollapsed ? styles.listPaneCollapsed : ''}`}>
+            {renderList(false)}
           </div>
-
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-            modifiers={[restrictToVerticalAxis]}
-          >
-            <div className={styles.listContainer}>
-              {visibleServices.length === 0 ? (
-                <div className={styles.empty}>No services configured.</div>
-              ) : (
-                <SortableContext
-                  items={visibleServices.map((s) => s.id)}
-                  strategy={verticalListSortingStrategy}
-                >
-                  {visibleServices.map((service) => (
-                    <SortableServiceItem
-                      key={service.id}
-                      service={service}
-                      isSelected={service.id === selectedId}
-                      isSaving={isSaving}
-                      onSelect={handleSelectService}
-                      onDelete={handleDeleteService}
-                    />
-                  ))}
-                </SortableContext>
-              )}
-            </div>
-          </DndContext>
-        </div>
+        )}
 
         {/* ── Right Pane: Detail Editor ───────────────────── */}
         <div className={styles.editorPane}>
@@ -295,6 +429,20 @@ export function ServicesPage() {
           </div>
         </div>
       </div>
+
+      {/* Mobile Drawer Overlay */}
+      {isMobile && (
+        <Drawer
+          placement="left"
+          onClose={() => setDrawerOpen(false)}
+          open={drawerOpen}
+          width={310}
+          styles={{ body: { padding: '1rem', background: 'var(--color-bg-container)' } }}
+        >
+          <div className={styles.mobileListTitle}>Services</div>
+          {renderList(true)}
+        </Drawer>
+      )}
     </div>
   )
 }

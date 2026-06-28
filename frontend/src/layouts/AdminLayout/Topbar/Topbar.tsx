@@ -10,6 +10,7 @@ import styles from './Topbar.module.css'
 const ROUTE_TITLES: Record<string, string> = {
   '/admin':          'Dashboard',
   '/admin/website':  'Website',
+  '/admin/website/services': 'Website / Services',
   '/admin/forms':    'Forms',
   '/admin/settings': 'Settings',
 }

@@ -83,6 +83,7 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className={styles.form} noValidate>
+      {/* Top Sticky Action Bar */}
       <div className={styles.header}>
         <div className={styles.titleInfo}>
           <h2 className={styles.title}>
@@ -121,7 +122,8 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
       </div>
 
       <div className={styles.sections}>
-        <SectionCard title="General Details" description="Configure basic service identification.">
+        <SectionCard title="General Details" description="Configure basic service identification and branding.">
+          {/* Row 1: Title | Subtitle | Status */}
           <FormRow>
             <AdminInput<ServiceFormValues>
               name="title"
@@ -137,14 +139,6 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
               label="Subtitle"
               placeholder="e.g. Turnkey engineering & delivery"
             />
-          </FormRow>
-          <FormRow>
-            <AdminInput<ServiceFormValues>
-              name="icon"
-              control={control}
-              label="Icon (Lucide Name)"
-              placeholder="e.g. Briefcase, Hammer, Grid"
-            />
             <AdminSelect<ServiceFormValues>
               name="status"
               control={control}
@@ -154,6 +148,26 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
                 { label: 'Inactive', value: 0 },
               ]}
               required
+            />
+          </FormRow>
+
+          {/* Row 2: Icon | Thumbnail Upload */}
+          <FormRow>
+            <AdminInput<ServiceFormValues>
+              name="icon"
+              control={control}
+              label="Icon (Lucide Name)"
+              placeholder="e.g. Briefcase, Hammer, Grid"
+            />
+            <UploadInput<ServiceFormValues>
+              name="image"
+              control={control}
+              label="Service Thumbnail"
+              hint="PNG, JPG, or WEBP · 1:1 ratio (1200x1200px recommended) · max 5 MB"
+              accept="image/png,image/jpeg,image/webp"
+              maxSizeMb={5}
+              cropPreset="service"
+              setValue={setValue}
             />
           </FormRow>
         </SectionCard>
@@ -172,19 +186,6 @@ export function ServiceForm({ initialValues, onSubmit, onDiscard, isSaving, onDi
             label="Detailed Description"
             placeholder="Full service overview for expanded accordion..."
             rows={5}
-          />
-        </SectionCard>
-
-        <SectionCard title="Branding Media" description="Service thumbnail and visualization image.">
-          <UploadInput<ServiceFormValues>
-            name="image"
-            control={control}
-            label="Service Thumbnail"
-            hint="PNG, JPG, or WEBP · 1:1 ratio (1200x1200px recommended) · max 5 MB"
-            accept="image/png,image/jpeg,image/webp"
-            maxSizeMb={5}
-            cropPreset="service"
-            setValue={setValue}
           />
         </SectionCard>
       </div>
