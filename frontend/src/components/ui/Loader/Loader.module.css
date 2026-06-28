@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8);
+}
+
+.fullPage {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--color-bg-mask);
+  padding: 0;
+}

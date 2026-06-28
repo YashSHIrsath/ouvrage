@@ -1,0 +1,141 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  height: var(--site-header-h-mob);
+  display: flex;
+  align-items: center;
+  background: transparent;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid transparent;
+}
+
+.header.scrolled {
+  background: var(--site-overlay-96);
+  backdrop-filter: blur(10px);
+  border-bottom-color: var(--site-border);
+}
+
+/* Makes SiteContainer fill the full header width inside the flex container */
+.headerShell {
+  flex: 1;
+  width: 100%;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+}
+
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.logoMark {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+}
+
+.logoBar {
+  width: 6px;
+  height: 28px;
+  background: var(--site-primary);
+}
+
+.logoBarShort {
+  width: 6px;
+  height: 18px;
+  background: rgba(232, 98, 10, 0.5);
+}
+
+.logoText {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--site-text);
+}
+
+/* Desktop navigation */
+.nav {
+  display: none;
+  align-items: center;
+  gap: 2.25rem;
+}
+
+/* Actions group */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+/* CTA button */
+.ctaBtn {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--site-primary);
+  color: var(--site-bg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.ctaBtn:hover { background: rgba(232, 98, 10, 0.85); }
+
+/* Icon-only buttons (theme toggle + hamburger) */
+.iconBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: var(--site-text-muted);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.15s ease;
+}
+.iconBtn:hover { color: var(--site-text); }
+
+/* Hamburger: shown on mobile, hidden on desktop */
+.menuBtn { display: inline-flex; }
+
+@media (min-width: 1024px) {
+  .header {
+    height: var(--site-header-h);
+  }
+
+  .nav {
+    display: flex;
+  }
+
+  .ctaBtn {
+    display: inline-flex;
+  }
+
+  .menuBtn {
+    display: none;
+  }
+}

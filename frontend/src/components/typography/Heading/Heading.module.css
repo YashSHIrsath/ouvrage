@@ -1,0 +1,11 @@
+.heading {
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.level1 { font-size: clamp(1.875rem, 4vw, 2.5rem); }
+.level2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+.level3 { font-size: clamp(1.25rem, 2.5vw, 1.5rem); }
+.level4 { font-size: clamp(1.125rem, 2vw, 1.25rem); }

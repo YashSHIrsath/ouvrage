@@ -1,0 +1,114 @@
+.section {
+  position: relative;
+  border-top: 1px solid var(--site-border);
+  padding-block: 7rem;
+  overflow: hidden;
+}
+
+.gridBg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--site-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--site-grid-line) 1px, transparent 1px);
+  background-size: 80px 80px;
+  pointer-events: none;
+}
+
+.accentBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--site-primary);
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* ── Headline ───────────────────────────────────────────────────────────── */
+.headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3rem, 7vw, 7rem);
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+  color: var(--site-text);
+  line-height: 0.9;
+  margin: 0 0 0.5rem;
+}
+
+.headlinePrimary { color: var(--site-primary); }
+
+/* ── Right ──────────────────────────────────────────────────────────────── */
+.body {
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--site-text-muted);
+  line-height: 1.75;
+  font-weight: 300;
+  max-width: 36rem;
+  margin-bottom: 2.5rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.primaryBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.75rem;
+  background: var(--site-primary);
+  color: var(--site-bg);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+.primaryBtn:hover { background: rgba(232, 98, 10, 0.85); }
+
+.secondaryBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.875rem 1.75rem;
+  border: 1px solid var(--site-border);
+  color: var(--site-text-muted);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.secondaryBtn:hover {
+  border-color: var(--site-stroke);
+  color: var(--site-text);
+}
+
+/* ── Desktop ─────────────────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .section { padding-block: 11rem; }
+
+  .layout {
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+  }
+}

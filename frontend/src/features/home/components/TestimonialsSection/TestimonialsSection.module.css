@@ -1,0 +1,143 @@
+.section {
+  background: var(--site-bg);
+  border-top: 1px solid var(--site-border);
+  padding-block: 6rem 11rem;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
+  margin-top: 1rem;
+}
+
+/* Decorative giant quotation mark */
+.quoteDecor {
+  display: none;
+  font-family: var(--font-display);
+  font-size: 280px;
+  font-weight: 900;
+  color: rgba(232, 98, 10, 0.07);
+  line-height: 0.72;
+  user-select: none;
+}
+
+.content {
+  flex: 1;
+}
+
+.blockquote {
+  margin: 0 0 2.5rem;
+}
+
+.quoteText {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: var(--site-text);
+  margin: 0 0 2.5rem;
+}
+
+.author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.authorAvatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--site-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.authorInitials {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--site-bg);
+}
+
+.authorName {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--site-text);
+}
+
+.authorRole {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--site-text-muted);
+  margin-top: 2px;
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.navBtn {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--site-border);
+  background: transparent;
+  color: var(--site-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.navBtn:hover {
+  background: var(--site-surface);
+  border-color: rgba(240, 235, 227, 0.2);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot {
+  height: 4px;
+  width: 8px;
+  background: var(--site-border);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+.dotActive {
+  width: 2rem;
+  background: var(--site-primary);
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--site-text-muted);
+  margin-left: 0.25rem;
+}
+
+/* ── Desktop ─────────────────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .section { padding-block: 11rem; }
+
+  .layout {
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem;
+  }
+
+  .quoteDecor { display: block; }
+}

@@ -1,0 +1,41 @@
+.track {
+  background: var(--site-primary);
+  padding-block: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.inner {
+  display: inline-flex;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.inner:hover {
+  animation-play-state: paused;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-inline: 1.25rem;
+}
+
+.name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--site-bg);
+}
+
+.sep {
+  color: rgba(10, 10, 8, 0.4);
+  font-size: 0.625rem;
+}
+
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}

@@ -1,0 +1,53 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PUBLIC WEBSITE DARK THEME
+   Fixed design tokens — always dark, does not respond to Ant Design theme.
+   Admin panel uses var(--color-*) from ThemeProvider; public site uses --site-*.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Backgrounds */
+  --site-bg:        #0A0A08;
+  --site-surface:   #131310;
+  --site-surface-2: #1C1C19;
+
+  /* Text */
+  --site-text:       #F0EBE3;
+  --site-text-muted: #7A756E;
+
+  /* Brand */
+  --site-primary: #E8620A;
+  --site-accent:  #C4912A;
+
+  /* Border */
+  --site-border: rgba(240, 235, 227, 0.08);
+
+  /* Radii */
+  --site-radius: 0px;
+
+  /* Overlay helpers (background color at varying opacities) */
+  --site-overlay-96: rgba(10, 10, 8, 0.96);
+  --site-overlay-90: rgba(10, 10, 8, 0.90);
+  --site-overlay-80: rgba(10, 10, 8, 0.80);
+  --site-overlay-72: rgba(10, 10, 8, 0.72);
+  --site-overlay-45: rgba(10, 10, 8, 0.45);
+  --site-overlay-38: rgba(10, 10, 8, 0.38);
+  --site-overlay-20: rgba(10, 10, 8, 0.20);
+
+  /* Hollow / outlined text stroke */
+  --site-stroke: rgba(240, 235, 227, 0.28);
+
+  /* Subtle grid overlay (used in Hero + CTA sections) */
+  --site-grid-line: rgba(240, 235, 227, 0.025);
+
+  /* Typography */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+  --font-body:    'Inter', sans-serif;
+
+  /* Layout */
+  --site-max-width:      1380px;
+  --site-px:             1.5rem;   /* 24px  — mobile horizontal padding */
+  --site-px-lg:          3.5rem;   /* 56px  — desktop horizontal padding */
+  --site-header-h:       72px;
+  --site-header-h-mob:   64px;
+}

@@ -1,0 +1,22 @@
+.label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--site-primary);
+  white-space: nowrap;
+}
+
+.line {
+  height: 1px;
+  width: 4rem;
+  background: var(--site-border);
+  flex-shrink: 0;
+}

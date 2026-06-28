@@ -1,0 +1,303 @@
+.section {
+  background: var(--site-bg);
+  padding-block: 6rem 11rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 3.5rem;
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(38px, 5vw, 76px);
+  letter-spacing: -0.015em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  color: var(--site-text);
+  margin: 0;
+}
+
+.viewAll {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--site-text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+.viewAll:hover { color: var(--site-text); }
+.viewAll:hover .viewAllIcon {
+  transform: translate(2px, -2px);
+}
+
+.viewAllIcon { transition: transform 0.2s ease; }
+
+/* ── Top grid ───────────────────────────────────────────────────────────── */
+.topGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+/* ── Shared card image styles ────────────────────────────────────────────── */
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cardLarge:hover .cardImg,
+.cardSmall:hover .cardImg,
+.cardWide:hover .cardImg {
+  transform: scale(1.055);
+}
+
+/* ── Large portrait card ─────────────────────────────────────────────────── */
+.cardLarge {
+  position: relative;
+  overflow: hidden;
+  background: var(--site-surface);
+  cursor: pointer;
+  height: 26rem;
+}
+
+.gradientBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, var(--site-overlay-90) 0%, rgba(10,10,8,0.15) 40%, transparent 70%);
+}
+
+.gradientRight {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(10,10,8,0.88) 0%, rgba(10,10,8,0.4) 45%, transparent 80%);
+}
+
+.cardInfo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.75rem;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.cardId {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--site-primary);
+}
+
+.metaDash {
+  height: 1px;
+  width: 1.5rem;
+  background: rgba(232,98,10,0.5);
+  flex-shrink: 0;
+}
+
+.cardType {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--site-text);
+  margin: 0 0 0.75rem;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+.cardLarge:hover .cardTitle { color: var(--site-primary); }
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardDetails {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.cardDetail {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--site-text-muted);
+}
+
+.cardArrow {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--site-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+.cardLarge:hover .cardArrow,
+.cardWide:hover .cardArrow {
+  background: var(--site-primary);
+  border-color: var(--site-primary);
+}
+
+.cardArrowIcon {
+  color: var(--site-text);
+  transition: color 0.2s ease;
+}
+.cardLarge:hover .cardArrowIcon,
+.cardWide:hover .cardArrowIcon { color: var(--site-bg); }
+
+/* ── Stacked small cards ─────────────────────────────────────────────────── */
+.stackedPair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.cardSmall {
+  position: relative;
+  overflow: hidden;
+  background: var(--site-surface);
+  cursor: pointer;
+  height: 13rem;
+  flex: 1;
+}
+
+.cardInfoSmall {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.25rem 1.75rem;
+}
+
+.cardMetaSmall {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.375rem;
+}
+
+.cardTypeSmall {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--site-text-muted);
+}
+
+.cardFooterSmall {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.cardTitleSmall {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--site-text);
+  margin: 0;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+.cardSmall:hover .cardTitleSmall { color: var(--site-primary); }
+
+.cardYear {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--site-text-muted);
+  flex-shrink: 0;
+}
+
+/* ── Wide landscape strip ────────────────────────────────────────────────── */
+.cardWide {
+  position: relative;
+  overflow: hidden;
+  background: var(--site-surface);
+  cursor: pointer;
+  height: 11rem;
+}
+
+.wideInfo {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding-inline: 1.75rem;
+}
+
+.wideLeft {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.wideTitleText {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--site-text);
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.cardWide:hover .wideTitleText { color: var(--site-primary); }
+
+.wideMeta {
+  display: none;
+  align-items: center;
+  gap: 1.75rem;
+  flex-shrink: 0;
+}
+
+.metaSep { color: rgba(240,235,227,0.3); }
+
+/* ── Desktop ─────────────────────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  .section { padding-block: 11rem; }
+
+  .topGrid { grid-template-columns: 1.45fr 1fr; }
+
+  .viewAll { display: flex; }
+
+  .cardLarge { height: 42rem; }
+
+  .cardSmall { height: auto; min-height: 13rem; }
+
+  .cardInfo { padding: 2.5rem; }
+
+  .wideMeta { display: flex; }
+}

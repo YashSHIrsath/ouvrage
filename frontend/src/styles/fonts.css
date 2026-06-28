@@ -1,0 +1,70 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   SELF-HOSTED FONTS — sourced from Google Fonts, stored in assets/fonts/
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Barlow Condensed ────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/barlow-condensed/barlow-condensed-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('../assets/fonts/barlow-condensed/barlow-condensed-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url('../assets/fonts/barlow-condensed/barlow-condensed-900.woff2') format('woff2');
+}
+
+/* ── DM Mono ─────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/dm-mono/dm-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'DM Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/dm-mono/dm-mono-500.woff2') format('woff2');
+}
+
+/* ── Inter ───────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('../assets/fonts/inter/inter-300.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../assets/fonts/inter/inter-400.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('../assets/fonts/inter/inter-500.woff2') format('woff2');
+}

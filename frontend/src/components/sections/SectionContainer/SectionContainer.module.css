@@ -1,0 +1,10 @@
+.section {
+  width: 100%;
+}
+
+.paddingSm { padding-block: var(--space-12); }
+.paddingMd { padding-block: var(--space-16); }
+.paddingLg { padding-block: 80px; }
+
+.bgDefault { background: var(--color-bg-container); }
+.bgAlternate { background: var(--color-bg-layout); }
