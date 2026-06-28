@@ -4,7 +4,6 @@ import { GripVertical, Image as ImageIcon } from 'lucide-react'
 import { StatusBadge } from '@/components/ui'
 import type { Service } from '@/features/services/types'
 import { useEffect, useState } from 'react'
-import { Tooltip } from 'antd'
 import styles from './ServicesPage.module.css'
 
 interface SortableServiceItemProps {
@@ -66,7 +65,7 @@ export function SortableServiceItem({
     zIndex: isDragging ? 2 : 'auto',
   }
 
-  const cardContent = (
+  return (
     <div
       ref={setNodeRef}
       style={style}
@@ -75,60 +74,68 @@ export function SortableServiceItem({
       } ${isCollapsed ? styles.itemCardCollapsed : ''}`}
       onClick={() => onSelect(service.id)}
     >
-      <div className={styles.cardHeader}>
-        {/* Drag Handle */}
-        <div
-          {...attributes}
-          {...listeners}
-          className={styles.dragHandle}
-          title="Drag to reorder"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <GripVertical size={16} />
-        </div>
+      {isCollapsed ? (
+        <div className={styles.collapsedCardInner}>
+          {/* Absolute Drag Handle */}
+          <div
+            {...attributes}
+            {...listeners}
+            className={styles.dragHandleCollapsed}
+            title="Drag to reorder"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <GripVertical size={12} />
+          </div>
 
-        <ServiceCardThumbnail image={service.image_url || service.image} title={service.title} />
-        
-        {!isCollapsed ? (
-          <div className={styles.cardInfo}>
-            <h4 className={styles.cardTitle}>{service.title || 'Untitled Service'}</h4>
-            <p className={styles.cardSubtitle}>{service.subtitle || 'No subtitle'}</p>
-            <div className={styles.cardMeta}>
-              <span className={styles.orderLabel}>Order: {service.sort_order}</span>
-              <StatusBadge status={service.status} />
+          <ServiceCardThumbnail image={service.image_url || service.image} title={service.title} />
+          
+          {/* Absolute Status Dot */}
+          <span
+            className={`${styles.statusDotCollapsed} ${
+              service.status === 1 ? styles.statusDotActive : styles.statusDotInactive
+            }`}
+          />
+        </div>
+      ) : (
+        <>
+          <div className={styles.cardHeader}>
+            {/* Drag Handle */}
+            <div
+              {...attributes}
+              {...listeners}
+              className={styles.dragHandle}
+              title="Drag to reorder"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <GripVertical size={16} />
+            </div>
+
+            <ServiceCardThumbnail image={service.image_url || service.image} title={service.title} />
+            
+            <div className={styles.cardInfo}>
+              <h4 className={styles.cardTitle}>{service.title || 'Untitled Service'}</h4>
+              <p className={styles.cardSubtitle}>{service.subtitle || 'No subtitle'}</p>
+              <div className={styles.cardMeta}>
+                <span className={styles.orderLabel}>Order: {service.sort_order}</span>
+                <StatusBadge status={service.status} />
+              </div>
             </div>
           </div>
-        ) : (
-          <div className={styles.collapsedMeta}>
-            <span className={`${styles.statusDot} ${service.status === 1 ? styles.statusDotActive : styles.statusDotInactive}`} />
-          </div>
-        )}
-      </div>
 
-      {!isCollapsed && (
-        <button
-          type="button"
-          className={styles.deleteBtn}
-          onClick={(e) => {
-            e.stopPropagation()
-            onDelete(service.id)
-          }}
-          aria-label="Delete service"
-          disabled={isSaving}
-        >
-          Delete
-        </button>
+          <button
+            type="button"
+            className={styles.deleteBtn}
+            onClick={(e) => {
+              e.stopPropagation()
+              onDelete(service.id)
+            }}
+            aria-label="Delete service"
+            disabled={isSaving}
+          >
+            Delete
+          </button>
+        </>
       )}
     </div>
   )
-
-  if (isCollapsed) {
-    return (
-      <Tooltip title={`${service.title || 'Untitled'} (${service.status === 1 ? 'Active' : 'Inactive'})`} placement="right">
-        {cardContent}
-      </Tooltip>
-    )
-  }
-
-  return cardContent;
 }
