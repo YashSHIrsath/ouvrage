@@ -12,6 +12,8 @@ export const IMAGE_PRESETS = {
   project: { aspect: 16 / 9, width: 1920, height: 1080 },
   team: { aspect: 1 / 1, width: 800, height: 800 },
   hero: { aspect: 21 / 9, width: 2560, height: 1097 },
+  logo: { aspect: 3 / 1, width: 600, height: 200 },
+  favicon: { aspect: 1 / 1, width: 64, height: 64 },
 } as const
 
 interface UploadInputProps<T extends FieldValues = FieldValues> {

@@ -139,17 +139,19 @@ export function GeneralSettingsForm() {
               name="logo"
               control={control}
               label="Logo"
-              hint="PNG, SVG, or WebP · max 2 MB"
+              hint="PNG, SVG, WebP, or JPG · 3:1 ratio (600x200px recommended) · max 2 MB"
               accept="image/png,image/svg+xml,image/webp,image/jpeg"
               maxSizeMb={2}
+              cropPreset="logo"
             />
             <UploadInput<GeneralSettingsFormValues>
               name="favicon"
               control={control}
               label="Favicon"
-              hint="ICO, PNG, or SVG · 32×32 recommended · max 512 KB"
-              accept="image/x-icon,image/png,image/svg+xml"
+              hint="ICO, PNG, SVG, or JPG · 1:1 ratio (32x32px recommended) · max 512 KB"
+              accept="image/x-icon,image/png,image/svg+xml,image/jpeg"
               maxSizeMb={0.5}
+              cropPreset="favicon"
             />
           </FormRow>
         </SectionCard>
