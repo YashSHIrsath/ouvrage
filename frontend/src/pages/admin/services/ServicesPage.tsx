@@ -82,15 +82,18 @@ export function ServicesPage() {
 
   const isSaving = createMutation.isPending || updateMutation.isPending || deleteMutation.isPending || reorderMutation.isPending
 
+  const [hasSelectedInitial, setHasSelectedInitial] = useState(false)
+
   // Exclude status === 9 soft deleted items
   const visibleServices = localServices.filter((s) => s.status !== 9)
 
-  // Set initial selection once services load
+  // Set initial selection once services load for the first time
   useEffect(() => {
-    if (selectedId === null && visibleServices.length > 0) {
+    if (!hasSelectedInitial && visibleServices.length > 0) {
       setSelectedId(visibleServices[0].id)
+      setHasSelectedInitial(true)
     }
-  }, [services, selectedId])
+  }, [services, visibleServices, hasSelectedInitial])
 
   const selectedService = services.find((s) => s.id === selectedId) || null
 
