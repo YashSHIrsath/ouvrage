@@ -49,3 +49,14 @@ ul,
 ol {
   list-style: none;
 }
+
+/* Remove focus ring for pointer interactions; restore it for keyboard navigation */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--site-primary);
+  outline-offset: 3px;
+  border-radius: 2px;
+}

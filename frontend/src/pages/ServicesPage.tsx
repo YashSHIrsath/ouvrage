@@ -4,6 +4,8 @@ import { ServicesSection } from '@/features/home/components'
 export function ServicesPage() {
   return (
     <>
+      <title>Services — BuildCo</title>
+      <meta name="description" content="Five integrated disciplines under one roof: building construction, land development, architecture, project management, and engineering consultation." />
       <PageHero
         label="02 / Services"
         headline="WHAT"

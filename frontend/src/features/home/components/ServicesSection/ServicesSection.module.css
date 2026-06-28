@@ -41,17 +41,25 @@
 
 .row {
   border-bottom: 1px solid var(--site-border);
-  cursor: pointer;
   transition: background 0.3s ease;
 }
 .row:hover { background: rgba(240, 235, 227, 0.015); }
 .rowActive { background: rgba(232, 98, 10, 0.04); }
 
 .rowHeader {
+  /* Button reset */
+  background: transparent;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  /* Layout */
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   padding-block: 1.25rem;
+  padding-inline: 0;
   gap: 1rem;
 }
 

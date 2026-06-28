@@ -34,15 +34,21 @@ export function ServicesSection() {
       <div className={styles.list}>
         {SERVICES.map((svc, i) => {
           const isOpen = activeIndex === i
+          const bodyId = `service-body-${i}`
           return (
             <div
               key={svc.num}
               className={isOpen ? `${styles.row} ${styles.rowActive}` : styles.row}
-              onClick={() => toggle(i)}
             >
               <SiteContainer>
-                {/* Row header */}
-                <div className={styles.rowHeader}>
+                {/* Semantic button trigger for keyboard and screen reader access */}
+                <button
+                  type="button"
+                  className={styles.rowHeader}
+                  onClick={() => toggle(i)}
+                  aria-expanded={isOpen}
+                  aria-controls={bodyId}
+                >
                   <div className={styles.rowLeft}>
                     <span className={styles.num}>{svc.num}</span>
                     <h3 className={isOpen ? `${styles.title} ${styles.titleActive}` : styles.title}>
@@ -50,13 +56,18 @@ export function ServicesSection() {
                     </h3>
                     <span className={styles.subtitle}>{svc.subtitle}</span>
                   </div>
-                  <div className={isOpen ? `${styles.toggle} ${styles.toggleOpen}` : styles.toggle}>
+                  <div className={isOpen ? `${styles.toggle} ${styles.toggleOpen}` : styles.toggle} aria-hidden>
                     <span className={styles.toggleIcon}>{isOpen ? '−' : '+'}</span>
                   </div>
-                </div>
+                </button>
 
                 {/* Expandable body */}
-                <div className={isOpen ? `${styles.body} ${styles.bodyOpen}` : styles.body}>
+                <div
+                  id={bodyId}
+                  role="region"
+                  aria-label={svc.title}
+                  className={isOpen ? `${styles.body} ${styles.bodyOpen}` : styles.body}
+                >
                   <div className={styles.bodyInner}>
                     <div className={styles.bodyContent}>
                       <p className={styles.desc}>{svc.description}</p>

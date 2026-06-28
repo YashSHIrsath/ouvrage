@@ -117,6 +117,34 @@
   gap: 0.875rem;
 }
 
+/* ── Field group (label + input + error) ─────────────────────────────────── */
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.fieldLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+}
+
+.required {
+  color: var(--site-primary);
+  margin-left: 0.125rem;
+}
+
+.fieldError {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--site-primary);
+}
+
+/* ── Input / select / textarea ───────────────────────────────────────────── */
 .field {
   width: 100%;
   background: rgba(10, 10, 8, 0.5);
@@ -125,12 +153,15 @@
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--site-text);
-  outline: none;
   transition: border-color 0.2s ease;
   appearance: none;
 }
 .field::placeholder { color: rgba(122, 117, 110, 0.45); }
-.field:focus { border-color: var(--site-primary); }
+/* Custom border focus replaces global outline for these inputs */
+.field:focus {
+  border-color: var(--site-primary);
+  outline: none;
+}
 
 .textarea { resize: none; }
 
@@ -150,9 +181,13 @@
   text-transform: uppercase;
   border: none;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.2s ease, opacity 0.2s ease;
 }
-.submitBtn:hover { background: rgba(232, 98, 10, 0.85); }
+.submitBtn:hover:not(:disabled) { background: rgba(232, 98, 10, 0.85); }
+.submitBtn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
 
 /* Success state */
 .success {

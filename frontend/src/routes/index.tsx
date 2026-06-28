@@ -8,6 +8,7 @@ import { ProjectsPage } from '@/pages/ProjectsPage'
 import { TestimonialsPage } from '@/pages/TestimonialsPage'
 import { FaqPage } from '@/pages/FaqPage'
 import { ContactPage } from '@/pages/ContactPage'
+import { NotFoundPage } from '@/pages/NotFoundPage'
 import { DashboardPage } from '@/pages/admin/DashboardPage'
 import { SiteSettingsPage } from '@/pages/admin/SiteSettingsPage'
 import { ThemeSettingsPage } from '@/pages/admin/ThemeSettingsPage'
@@ -23,6 +24,7 @@ export const router = createBrowserRouter([
       { path: '/testimonials', element: <TestimonialsPage /> },
       { path: '/faq', element: <FaqPage /> },
       { path: '/contact', element: <ContactPage /> },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
   {

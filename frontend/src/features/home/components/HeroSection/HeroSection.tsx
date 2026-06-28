@@ -7,6 +7,8 @@ import heroImg from '@/assets/images/hero-bg.jpg'
 import styles from './HeroSection.module.css'
 
 export function HeroSection() {
+  const featured = PROJECTS[0] ?? null
+
   return (
     <section className={styles.section}>
       <div className={styles.gridBg} aria-hidden />
@@ -56,16 +58,18 @@ export function HeroSection() {
           <div className={styles.heroOverlay} />
           <div className={styles.heroStripe} />
 
-          {/* Floating project badge */}
-          <div className={styles.heroBadge}>
-            <div className={styles.badgeLabel}>Latest Project</div>
-            <div className={styles.badgeTitle}>{PROJECTS[0].title}</div>
-            <div className={styles.badgeMeta}>
-              <span className={styles.badgeMetaText}>{PROJECTS[0].location}</span>
-              <span className={styles.badgeDot}>·</span>
-              <span className={styles.badgeMetaText}>{PROJECTS[0].year}</span>
+          {/* Floating project badge — only rendered when project data exists */}
+          {featured && (
+            <div className={styles.heroBadge}>
+              <div className={styles.badgeLabel}>Latest Project</div>
+              <div className={styles.badgeTitle}>{featured.title}</div>
+              <div className={styles.badgeMeta}>
+                <span className={styles.badgeMetaText}>{featured.location}</span>
+                <span className={styles.badgeDot}>·</span>
+                <span className={styles.badgeMetaText}>{featured.year}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 
