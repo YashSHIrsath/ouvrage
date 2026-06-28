@@ -5,6 +5,23 @@ Each stage records every issue resolved, files changed, and final status.
 
 ---
 
+## Phase 3 — Stage 4: Services Public Integration
+
+**Goal:** Transform the Services CMS module from an admin editor into a real CMS by connecting the public website to the database-driven services.
+
+| Area | Change | Status |
+|------|--------|--------|
+| Backend | Public API Endpoint: Created `GET /api/v1/services` mapping to `Public\ServiceController@index` | Complete |
+| Backend | API Resource: Created `ServiceResource` with restricted public-safe fields and future SEO TODO stubs | Complete |
+| Backend | Database Seeding: Created `ServiceSeeder` to populate database with original services, preserving sort orders | Complete |
+| Frontend | API Layer: Created `publicServicesApi.ts` and `usePublicServices.ts` hook with 5m staleTime / 10m gcTime | Complete |
+| Frontend | Caching: Automatically invalidates `['public', 'services']` queries on any admin mutations (create, update, delete, reorder) | Complete |
+| Frontend | UI accordion: Configured public `ServicesSection.tsx` with dynamic fetches, pulsing skeletons, empty and error handlers | Complete |
+| Frontend | UI preview: Configured public `ServicesPreview.tsx` with dynamic fetches, pulsing grid skeletons, empty and error handlers | Complete |
+| Frontend | UI form: Configured `CtaSection.tsx` dropdown options dynamic fetches with loading and error states | Complete |
+
+---
+
 ## Phase 3 — Stage 3: Admin Services UI Refinements
 
 **Goal:** Refine the layout of the Services CMS module by implementing collapsible panel widths, search filters, status counters, top-sticky save bars, wider responsive grids, and drawer overlays.

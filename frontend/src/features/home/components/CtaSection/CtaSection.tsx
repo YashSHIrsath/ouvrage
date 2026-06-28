@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { ArrowUpRight } from 'lucide-react'
 import { SiteContainer, SectionLabel } from '@/components/sections'
-import { SERVICES } from '../../data/services'
+import { usePublicServices } from '@/features/services/hooks/usePublicServices'
 import ctaBg from '@/assets/images/cta-bg.jpg'
 import styles from './CtaSection.module.css'
 
@@ -46,6 +46,7 @@ const TIMELINES = [
 ]
 
 export function CtaSection() {
+  const { data: services = [], isLoading, isError } = usePublicServices()
   const [submitted, setSubmitted] = useState(false)
   const [highlighted, setHighlighted] = useState(false)
   const [searchParams] = useSearchParams()
@@ -260,9 +261,17 @@ export function CtaSection() {
                       defaultValue=""
                       {...register('service')}
                     >
-                      <option value="" disabled>Select a service</option>
-                      {SERVICES.map((s) => (
-                        <option key={s.num} value={s.title}>{s.title}</option>
+                      <option value="" disabled>
+                        {isLoading
+                          ? 'Loading services...'
+                          : isError
+                          ? 'Unable to load services.'
+                          : services.length === 0
+                          ? 'No services available.'
+                          : 'Select a service'}
+                      </option>
+                      {!isLoading && !isError && services.map((s) => (
+                        <option key={s.id} value={s.title}>{s.title}</option>
                       ))}
                     </select>
                   </div>

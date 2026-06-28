@@ -18,6 +18,8 @@ Route::prefix('v1')->group(function (): void {
     });
 
     // ── Public routes — no authentication required ────────────────────────────
+    Route::get('services', [App\Http\Controllers\Public\ServiceController::class, 'index'])->name('services.public');
+
     Route::prefix('public')->name('public.')->group(function (): void {
         // Phase 3: services, projects, testimonials, faqs, team
     });

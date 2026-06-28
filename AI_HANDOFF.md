@@ -19,7 +19,7 @@ The website has two distinct parts:
 
 ## Current Development Stage
 
-**Phase 3 Stage 3 complete** — The Services module has been fully refined with modern UI enhancements (collapsible side panel with persistent Zustand storage, top-sticky action bar, stats counter, text search filter, responsive tablet narrow configurations, and mobile Ant Design Drawer overlay). It represents the complete standard UX blueprint for future CMS pages.
+**Phase 3 Stage 4 complete** — The Services module is now a fully connected, database-driven CMS. The public website has been completely connected to the Laravel API database services, featuring custom query hooks, cache invalidation, and advanced fallback UX (shimmering loaders, empty, and error templates). It represents the complete standard architecture blueprint for all upcoming CMS pages.
 
 ## Overall Architecture
 
@@ -693,21 +693,30 @@ STATS: Stat[] = [
 
 ---
 
-## `features/home/data/services.ts`
+## Public Database-Driven Services API
 
-```typescript
-interface Service { num: string; title: string; subtitle: string; description: string; tags: string[] }
-SERVICES: Service[] = [ 5 items ]
+**Endpoint:** `GET /api/v1/services`
+**Data structure (ServiceResource):**
+```json
+[
+  {
+    "id": 1,
+    "slug": "building-construction",
+    "title": "Building Construction",
+    "subtitle": "Residential · Commercial · Industrial",
+    "short_description": "...",
+    "image_url": "...",
+    "icon": "Briefcase"
+  }
+]
 ```
 
-Items: Building Construction, Land Development, Architecture, Project Management, Engineering Consultation.
-
 **Used by:**
-- ServicesSection (full accordion — all 5)
-- ServicesPreview (first 3 only via `.slice(0, 3)`)
-- CtaSection (service dropdown `<select>` options)
+- `ServicesSection` (full accordion — fetched dynamically with loading skeletons, error templates, and empty list indicators)
+- `ServicesPreview` (first 3 active items, with skeleton teaser grids)
+- `CtaSection` (contact form dropdown options, with dynamic loading/error option tags)
 
-**Future:** This becomes a `services` database table. The `num` field should become `order_index` (integer). Add `slug` field for URL routing. Add `status` (1=active, 0=inactive, 9=deleted per project rules). Add optional `icon` and `image` fields.
+**Architecture Blueprint:** Serves as the complete template for connecting all remaining public pages (Projects, Team, Testimonials, FAQ) to the database-driven CMS backend.
 
 ---
 

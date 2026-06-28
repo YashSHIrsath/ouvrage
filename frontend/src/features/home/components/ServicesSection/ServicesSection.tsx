@@ -1,13 +1,81 @@
 import { useState } from 'react'
 import { SiteContainer, SectionLabel } from '@/components/sections'
-import { SERVICES } from '../../data/services'
+import { usePublicServices } from '@/features/services/hooks/usePublicServices'
 import styles from './ServicesSection.module.css'
 
 export function ServicesSection() {
+  const { data: services = [], isLoading, isError } = usePublicServices()
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   const toggle = (i: number) =>
     setActiveIndex((prev) => (prev === i ? null : i))
+
+  // 1. Loading State (Skeletons)
+  if (isLoading) {
+    return (
+      <section className={styles.section}>
+        <SiteContainer>
+          <div className={styles.header}>
+            <div>
+              <SectionLabel>01 / Services</SectionLabel>
+              <h2 className={styles.headline}>
+                WHAT
+                <br />
+                WE DO
+              </h2>
+            </div>
+            <p className={styles.tagline}>
+              Five integrated
+              <br />
+              capabilities. One
+              <br />
+              coherent delivery.
+            </p>
+          </div>
+        </SiteContainer>
+
+        <div className={styles.list}>
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className={styles.skeletonRow}>
+              <SiteContainer>
+                <div className={styles.skeletonInner}>
+                  <div className={`${styles.skeletonBar} ${styles.skeletonNum}`} />
+                  <div className={`${styles.skeletonBar} ${styles.skeletonTitle}`} />
+                  <div className={`${styles.skeletonBar} ${styles.skeletonSub}`} />
+                </div>
+              </SiteContainer>
+            </div>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  // 2. Error State
+  if (isError) {
+    return (
+      <section className={styles.section}>
+        <SiteContainer>
+          <div className={styles.errorBox} role="alert">
+            <span>Unable to load services.</span>
+          </div>
+        </SiteContainer>
+      </section>
+    )
+  }
+
+  // 3. Empty State
+  if (services.length === 0) {
+    return (
+      <section className={styles.section}>
+        <SiteContainer>
+          <div className={styles.emptyBox}>
+            <span>No services available.</span>
+          </div>
+        </SiteContainer>
+      </section>
+    )
+  }
 
   return (
     <section className={styles.section}>
@@ -32,12 +100,23 @@ export function ServicesSection() {
       </SiteContainer>
 
       <div className={styles.list}>
-        {SERVICES.map((svc, i) => {
+        {services.map((svc, i) => {
           const isOpen = activeIndex === i
-          const bodyId = `service-body-${i}`
+          const bodyId = `service-body-${svc.id}`
+          
+          // Format the sort order index dynamically (e.g. 1 -> "01")
+          const displayNum = String(i + 1).padStart(2, '0')
+          
+          // Parse tag pill items dynamically from the subtitle
+          const tags = svc.subtitle
+            ? svc.subtitle.split(/\s*[·•,]\s*/).map((t) => t.trim()).filter(Boolean)
+            : []
+
+          const description = svc.long_description || svc.short_description
+
           return (
             <div
-              key={svc.num}
+              key={svc.id}
               className={isOpen ? `${styles.row} ${styles.rowActive}` : styles.row}
             >
               <SiteContainer>
@@ -50,7 +129,7 @@ export function ServicesSection() {
                   aria-controls={bodyId}
                 >
                   <div className={styles.rowLeft}>
-                    <span className={styles.num}>{svc.num}</span>
+                    <span className={styles.num}>{displayNum}</span>
                     <h3 className={isOpen ? `${styles.title} ${styles.titleActive}` : styles.title}>
                       {svc.title}
                     </h3>
@@ -70,12 +149,14 @@ export function ServicesSection() {
                 >
                   <div className={styles.bodyInner}>
                     <div className={styles.bodyContent}>
-                      <p className={styles.desc}>{svc.description}</p>
-                      <div className={styles.tags}>
-                        {svc.tags.map((tag) => (
-                          <span key={tag} className={styles.tag}>{tag}</span>
-                        ))}
-                      </div>
+                      <p className={styles.desc}>{description}</p>
+                      {tags.length > 0 && (
+                        <div className={styles.tags}>
+                          {tags.map((tag) => (
+                            <span key={tag} className={styles.tag}>{tag}</span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

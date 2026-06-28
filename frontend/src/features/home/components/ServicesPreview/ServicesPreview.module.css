@@ -136,3 +136,57 @@
     border-right: none;
   }
 }
+
+/* ── Skeletons, Errors & Empty states ──────────────────────────────────── */
+.cardSkeleton {
+  pointer-events: none;
+}
+
+.skeletonBar {
+  background: var(--site-border);
+  border-radius: 3px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.skeletonNum {
+  width: 1.5rem;
+  height: 10px;
+  background: rgba(232, 98, 10, 0.15) !important;
+  margin-bottom: 0.875rem;
+}
+
+.skeletonTitle {
+  width: 180px;
+  height: 24px;
+  margin-bottom: 0.75rem;
+}
+
+.skeletonSub {
+  width: 120px;
+  height: 11px;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.5; }
+  50% { opacity: 0.25; }
+  100% { opacity: 0.5; }
+}
+
+.errorBox,
+.emptyBox {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  border: 1px dashed var(--site-border);
+  border-radius: 4px;
+  color: var(--site-text-dim);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  margin-block: 2rem;
+  grid-column: 1 / -1;
+}
+
+.errorBox {
+  border-color: rgba(232, 98, 10, 0.2);
+  color: var(--site-primary);
+}

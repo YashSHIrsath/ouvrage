@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { SiteContainer, SectionLabel } from '@/components/sections'
-import { SERVICES } from '../../data/services'
+import { usePublicServices } from '@/features/services/hooks/usePublicServices'
 import styles from './ServicesPreview.module.css'
 
 export function ServicesPreview() {
-  const featured = SERVICES.slice(0, 3)
+  const { data: services = [], isLoading, isError } = usePublicServices()
+  const featured = services.slice(0, 3)
 
   return (
     <section className={styles.section}>
@@ -20,20 +21,49 @@ export function ServicesPreview() {
           </div>
         </div>
 
-        <div className={styles.grid}>
-          {featured.map((service) => (
-            <div key={service.num} className={styles.card}>
-              <div className={styles.cardNum}>{service.num}</div>
-              <div className={styles.cardTitle}>{service.title}</div>
-              <div className={styles.cardSub}>{service.subtitle}</div>
-              <div className={styles.cardTags}>
-                {service.tags.slice(0, 3).map((tag) => (
-                  <span key={tag} className={styles.tag}>{tag}</span>
-                ))}
+        {isLoading ? (
+          <div className={styles.grid}>
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div key={i} className={`${styles.card} ${styles.cardSkeleton}`}>
+                <div className={`${styles.skeletonBar} ${styles.skeletonNum}`} />
+                <div className={`${styles.skeletonBar} ${styles.skeletonTitle}`} />
+                <div className={`${styles.skeletonBar} ${styles.skeletonSub}`} />
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : isError ? (
+          <div className={styles.errorBox} role="alert">
+            <span>Unable to load services.</span>
+          </div>
+        ) : featured.length === 0 ? (
+          <div className={styles.emptyBox}>
+            <span>No services available.</span>
+          </div>
+        ) : (
+          <div className={styles.grid}>
+            {featured.map((service, i) => {
+              const displayNum = String(i + 1).padStart(2, '0')
+              const tags = service.subtitle
+                ? service.subtitle.split(/\s*[·•,]\s*/).map((t) => t.trim()).filter(Boolean)
+                : []
+              
+              return (
+                <div key={service.id} className={styles.card}>
+                  <div className={styles.cardNum}>{displayNum}</div>
+                  <div className={styles.cardTitle}>{service.title}</div>
+                  <div className={styles.cardSub}>{service.subtitle}</div>
+                  {tags.length > 0 && (
+                    <div className={styles.cardTags}>
+                      {tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className={styles.tag}>{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        )}
       </SiteContainer>
     </section>
   )

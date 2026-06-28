@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from '@/stores/toastStore'
 import { servicesApi } from '../api/servicesApi'
 import type { ServiceFormValues } from '../types'
+import { PUBLIC_SERVICES_QUERY_KEY } from './usePublicServices'
 
 function extractMessage(err: unknown, fallback: string): string {
   if (err && typeof err === 'object' && 'response' in err) {
@@ -29,6 +30,7 @@ export function useCreateService() {
     mutationFn: servicesApi.createService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: PUBLIC_SERVICES_QUERY_KEY })
       toast.success('Service created successfully.')
     },
     onError: (err) => {
@@ -46,6 +48,7 @@ export function useUpdateService() {
       servicesApi.updateService(id, values),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: PUBLIC_SERVICES_QUERY_KEY })
       toast.success('Service updated successfully.')
     },
     onError: (err) => {
@@ -62,10 +65,11 @@ export function useDeleteService() {
     mutationFn: servicesApi.deleteService,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: PUBLIC_SERVICES_QUERY_KEY })
       toast.success('Service deleted successfully.')
     },
     onError: (err) => {
-      toast.error(extractMessage(err, 'Unable to save service.')) // Wording aligns with "Unable to save service." for deletions if needed, or custom fallback
+      toast.error(extractMessage(err, 'Unable to save service.'))
     },
   })
 }
@@ -78,10 +82,12 @@ export function useReorderServices() {
     mutationFn: servicesApi.reorderServices,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: PUBLIC_SERVICES_QUERY_KEY })
       toast.success('Service order updated.')
     },
     onError: (err) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEY })
+      queryClient.invalidateQueries({ queryKey: PUBLIC_SERVICES_QUERY_KEY })
       toast.error(extractMessage(err, 'Unable to reorder services.'))
     },
   })

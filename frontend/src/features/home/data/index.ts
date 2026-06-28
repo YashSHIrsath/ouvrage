@@ -1,8 +1,6 @@
 export { STATS } from './stats'
 export type { Stat } from './stats'
 
-export { SERVICES } from './services'
-export type { Service } from './services'
 
 export { PROJECTS } from './projects'
 export type { Project } from './projects'
