@@ -5,7 +5,6 @@ const apiClient = axios.create({
   // In production, set VITE_API_URL to the absolute API base (e.g. https://api.example.com/api/v1).
   baseURL: import.meta.env.VITE_API_URL ?? '/api/v1',
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
   withCredentials: true,
