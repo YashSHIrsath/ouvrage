@@ -69,6 +69,8 @@ export function SortableServiceItem({
     <div
       ref={setNodeRef}
       style={style}
+      {...attributes}
+      {...listeners}
       className={`${styles.itemCard} ${isSelected ? styles.itemCardActive : ''} ${
         isDragging ? styles.dragging : ''
       } ${isCollapsed ? styles.itemCardCollapsed : ''}`}
@@ -76,14 +78,8 @@ export function SortableServiceItem({
     >
       {isCollapsed ? (
         <div className={styles.collapsedCardInner}>
-          {/* Absolute Drag Handle */}
-          <div
-            {...attributes}
-            {...listeners}
-            className={styles.dragHandleCollapsed}
-            title="Drag to reorder"
-            onClick={(e) => e.stopPropagation()}
-          >
+          {/* Visual Grip Handle */}
+          <div className={styles.dragHandleCollapsed} title="Drag to reorder">
             <GripVertical size={12} />
           </div>
 
@@ -99,14 +95,8 @@ export function SortableServiceItem({
       ) : (
         <>
           <div className={styles.cardHeader}>
-            {/* Drag Handle */}
-            <div
-              {...attributes}
-              {...listeners}
-              className={styles.dragHandle}
-              title="Drag to reorder"
-              onClick={(e) => e.stopPropagation()}
-            >
+            {/* Visual Grip Handle */}
+            <div className={styles.dragHandle} title="Drag to reorder">
               <GripVertical size={16} />
             </div>
 
