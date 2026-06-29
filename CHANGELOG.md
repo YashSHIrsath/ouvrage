@@ -38,6 +38,42 @@ Each stage records every issue resolved, files changed, and final status.
 
 ---
 
+## Phase 3 — Admin Foundation: Login Page, Toast System, Admin Shell & Design System
+
+**Goal:** Before building any CMS module, establish the complete admin infrastructure: polished login page, global notification system, reusable navigation shell, and the full admin component library. These are prerequisites for every subsequent CMS module.
+
+| Area | Change | Status |
+|------|--------|--------|
+| Frontend | Login page redesign: grid-texture background, orange top-border card, BuildCo two-bar logo mark, card slide-up animation | Complete |
+| Frontend | Theme toggle moved inside card brand row (avoids collision with fixed toast container at top-right) | Complete |
+| Frontend | Login validation: required fields + email pattern + minLength rules added to TextInput/PasswordInput via `rules` prop | Complete |
+| Frontend | Global toast system: `toastStore.ts` + `Toast.tsx` + `ToastContainer.tsx` — no external package; React portal; `isLeaving` state drives exit animation | Complete |
+| Frontend | Login errors now shown as `toast.error()` instead of inline alert — removed `serverError` useState | Complete |
+| Frontend | `AdminLayout.tsx`: custom HTML layout (no Ant Design Layout), reads `sidebarStore`, renders Sidebar + mobile overlay + main | Complete |
+| Frontend | `Sidebar.tsx`: fixed 240px, collapses to 64px, NavLink active state (orange left border + tint), mobile `translateX` drawer | Complete |
+| Frontend | `Topbar.tsx`: sticky 56px, page title from `useLocation()`, hamburger (mobile), user name, theme toggle, logout | Complete |
+| Frontend | `sidebarStore.ts`: Zustand with persist; `isCollapsed` persisted to `admin-sidebar` key; `isMobileOpen` session-only | Complete |
+| Frontend | Placeholder pages: DashboardPage, WebsitePage, FormsPage | Complete |
+| Frontend | `PageHeader` component: title + description + right-aligned actions slot | Complete |
+| Frontend | `SectionCard` component: titled card with header (surface-2) and padded body | Complete |
+| Frontend | `AdminButton` component: Barlow Condensed uppercase, wraps Button, orange primary via `:global(.ant-btn-primary)` | Complete |
+| Frontend | `StatusBadge` component: colored dot for status 1/0/9 | Complete |
+| Frontend | `Modal` component: Ant Design Modal + custom header + blurred backdrop | Complete |
+| Frontend | `ConfirmDialog` component: confirmation modal with icon ring, built on Modal | Complete |
+| Frontend | `UploadInput` component: drag-drop file upload, `URL.createObjectURL()` preview, hover overlay buttons, `maxSizeMb` guard | Complete |
+| Frontend | `FormRow` component: CSS grid helper with `cols={1\|2\|3}` | Complete |
+| Frontend | `admin.ts` barrel: re-exports TextInput/TextAreaInput/SelectInput as AdminInput/AdminTextarea/AdminSelect — zero code duplication | Complete |
+| Backend | Migration: `create_site_settings_table` — id, company_name, tagline, email, phone, address, logo_path, favicon_path | Complete |
+| Backend | `SiteSettings` model: `firstOrCreate` singleton via `current()`, `logo_url`/`favicon_url` accessors | Complete |
+| Backend | `SettingsController`: `getGeneral()` + `updateGeneral()` — validates, handles file upload/removal, updates singleton | Complete |
+| Backend | Routes: `GET` + `POST` `/api/v1/admin/settings/general` inside `auth:sanctum` + `admin` middleware group | Complete |
+| Frontend | Settings types: `GeneralSettings`, `GeneralSettingsFormValues` | Complete |
+| Frontend | `settingsService.ts`: `getGeneral()` + `updateGeneral()` via FormData construction | Complete |
+| Frontend | `useGeneralSettings.ts`: `useQuery` + `useMutation` with cache update + toast on success/error | Complete |
+| Frontend | `GeneralSettingsForm.tsx`: three SectionCards (Company, Contact, Branding) with logo/favicon UploadInput | Complete |
+
+---
+
 ## Phase 3 — Stage 2: Website CMS Integration (Services Blueprint)
 
 **Goal:** Implement database persistence, API endpoints, TanStack Query integration, drag-and-drop reordering, and preset image cropping for the Services CMS module.

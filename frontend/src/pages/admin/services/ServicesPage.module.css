@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  height: calc(100vh - 80px);
+  height: calc(100vh - var(--topbar-h, 56px) - var(--cms-nav-h, 0px));
   min-height: 500px;
   overflow: hidden;
   padding: 1.25rem 1.5rem 1.5rem 1.5rem; /* Spacious professional top/side padding */

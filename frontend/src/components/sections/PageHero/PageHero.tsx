@@ -1,5 +1,7 @@
+import { useLocation } from 'react-router-dom'
 import { SiteContainer } from '../SiteContainer/SiteContainer'
 import { SectionLabel } from '../SectionLabel/SectionLabel'
+import { useNavigation } from '@/features/navigation/hooks/useNavigation'
 import styles from './PageHero.module.css'
 
 export interface HeroStat {
@@ -8,7 +10,10 @@ export interface HeroStat {
 }
 
 interface PageHeroProps {
-  label: string
+  /** Optional override — existing pages pass this directly.
+   *  When omitted, the label is computed automatically from the nav order
+   *  (e.g. the 3rd navbar item at /services → "03 / SERVICES"). */
+  label?: string
   headline: string
   headlineSub?: string
   subtitle?: string
@@ -19,6 +24,14 @@ interface PageHeroProps {
 }
 
 export function PageHero({ label, headline, headlineSub, subtitle, sideStats, sideAccent }: PageHeroProps) {
+  const { getPageLabel } = useNavigation()
+  const { pathname } = useLocation()
+
+  // Use the explicit override if provided; otherwise derive from nav order.
+  // This keeps existing pages working with hardcoded labels while new pages
+  // get automatic numbering based on their position in the navbar.
+  const resolvedLabel = label ?? getPageLabel(pathname)
+
   const hasSide = !!(sideStats?.length || sideAccent)
 
   return (
@@ -28,7 +41,7 @@ export function PageHero({ label, headline, headlineSub, subtitle, sideStats, si
         <div className={hasSide ? `${styles.layout} ${styles.layoutSplit}` : styles.layout}>
           {/* Left content */}
           <div className={styles.content}>
-            <SectionLabel>{label}</SectionLabel>
+            <SectionLabel>{resolvedLabel}</SectionLabel>
             <div className={styles.accentLine} aria-hidden />
             <h1 className={styles.headline}>
               {headline}

@@ -1,0 +1,6 @@
+.placeholder {
+  padding: 4rem 0;
+  text-align: center;
+  color: var(--site-text-muted);
+  font-size: 0.95rem;
+}

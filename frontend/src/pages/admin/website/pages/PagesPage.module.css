@@ -1,0 +1,261 @@
+/* ── Page container — mirrors ServicesPage layout ───────────────────────── */
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: calc(100vh - var(--topbar-h, 56px) - var(--cms-nav-h, 0px));
+  min-height: 500px;
+  overflow: hidden;
+  padding: 1.25rem 1.5rem 1.5rem;
+}
+
+.compactHeader {
+  padding-bottom: 0.5rem !important;
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+  gap: 0.5rem !important;
+}
+
+.compactHeader h1 { font-size: 1.25rem !important; }
+.compactHeader p  { font-size: 0.75rem !important; }
+
+/* ── Split layout ───────────────────────────────────────────────────────── */
+.splitLayout {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Left pane ──────────────────────────────────────────────────────────── */
+.listPane {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1rem;
+  overflow: hidden;
+}
+
+.listHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 0.5rem;
+}
+
+.listTitle {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+}
+
+/* Stats strip */
+.statsContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  background: var(--color-bg-layout);
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.statBox   { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.statVal   { font-family: var(--font-mono); font-size: 0.9rem; font-weight: 700; color: var(--color-text); }
+.statLbl   { font-size: 0.65rem; color: var(--color-text-secondary); text-transform: uppercase; }
+
+/* Scrollable list */
+.listContainer {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-right: 0.15rem;
+}
+
+.listContainer::-webkit-scrollbar { width: 5px; }
+.listContainer::-webkit-scrollbar-track { background: transparent; }
+.listContainer::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+.listContainer::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+/* ── Item cards — mirrors SortableServiceItem patterns ──────────────────── */
+.itemCard {
+  position: relative;
+  background: var(--color-bg-layout);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.itemCard:hover     { border-color: var(--color-primary); }
+.itemCardActive     { border-color: var(--color-primary); background: var(--color-bg-container); box-shadow: 0 0 0 1px var(--color-primary); }
+.dragging           { border-color: var(--color-primary) !important; box-shadow: 0 0 0 2px var(--color-primary) !important; background: var(--color-bg-container) !important; }
+
+.cardHeader {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  color: var(--color-text-secondary);
+  opacity: 0.4;
+  transition: opacity 0.2s, color 0.2s;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.dragHandle:hover  { opacity: 1; color: var(--color-primary); }
+.dragHandle:active { cursor: grabbing; }
+
+.cardInfo { flex: 1; min-width: 0; }
+
+.cardTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin-bottom: 0.3rem;
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.systemBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  opacity: 0.6;
+  flex-shrink: 0;
+}
+
+.cardMeta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.slugChip {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-layout);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.templateChip {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  background: var(--color-bg-layout);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+.statusChip {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 3px;
+  padding: 1px 5px;
+  border: 1px solid;
+}
+
+.statusPublished {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-success) 35%, transparent);
+  color: var(--color-success);
+}
+
+.statusDraft {
+  background: var(--color-bg-layout);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+.deleteBtn {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  font-size: 0.7rem;
+  color: var(--color-error);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+
+.deleteBtn:hover:not(:disabled) { opacity: 1; text-decoration: underline; }
+.deleteBtn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+/* ── Right pane ─────────────────────────────────────────────────────────── */
+.editorPane {
+  flex: 1;
+  background: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow-y: auto;
+  min-width: 0;
+  /* Reset the CMS nav height variable — PageForm's sticky header
+     scrolls within this pane, not the page-level container */
+  --cms-nav-h: 0px;
+}
+
+.editorPane::-webkit-scrollbar { width: 5px; }
+.editorPane::-webkit-scrollbar-track { background: transparent; }
+.editorPane::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 3px; }
+.editorPane::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }
+
+/* ── Misc ───────────────────────────────────────────────────────────────── */
+.empty   { font-size: 0.8rem; color: var(--color-text-secondary); text-align: center; padding: 1.5rem 0; }
+.loading { display: flex; align-items: center; justify-content: center; min-height: 400px; font-size: 0.85rem; color: var(--color-text-secondary); }
+.error   { display: flex; align-items: center; justify-content: center; min-height: 400px; font-size: 0.85rem; color: var(--color-error); }
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .listPane { width: 260px; }
+}
+
+@media (max-width: 768px) {
+  .splitLayout { flex-direction: column; overflow: visible; }
+  .listPane    { width: 100%; height: 280px; }
+  .page        { height: auto; overflow: visible; }
+}

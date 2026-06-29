@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Briefcase, FolderOpen, Quote, Users, HelpCircle, Mail } from 'lucide-react'
+import { Briefcase, FolderOpen, Quote, Users, HelpCircle, Mail, Navigation, FileText } from 'lucide-react'
 import { PageHeader, SectionCard, AdminButton } from '@/components/ui'
 import styles from './WebsitePage.module.css'
 
@@ -7,6 +7,22 @@ export function WebsitePage() {
   const navigate = useNavigate()
 
   const modules = [
+    {
+      id: 'navigation',
+      title: 'Navigation',
+      description: 'Configure header and footer links, order, and visibility.',
+      count: '7 items',
+      icon: Navigation,
+      path: '/admin/website/navigation',
+    },
+    {
+      id: 'pages',
+      title: 'Pages',
+      description: 'Manage site pages, slugs, templates, and publication status.',
+      count: '7 pages',
+      icon: FileText,
+      path: '/admin/website/pages',
+    },
     {
       id: 'services',
       title: 'Services',

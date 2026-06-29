@@ -1,0 +1,287 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.25rem 1.5rem 2rem;
+}
+
+/* ── Table-like list layout ─────────────────────────────────────────────── */
+.tableWrapper {
+  background: var(--color-bg-container);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Column header row */
+.tableHead {
+  display: grid;
+  grid-template-columns: 28px 110px 1fr 1.4fr 0.8fr 68px 68px 80px 72px;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  background: var(--color-bg-layout);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.colLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+}
+
+/* Item rows */
+.row {
+  display: grid;
+  grid-template-columns: 28px 110px 1fr 1.4fr 0.8fr 68px 68px 80px 72px;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s;
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.row:hover {
+  background: var(--color-bg-layout);
+}
+
+.rowDragging {
+  background: var(--color-bg-container) !important;
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+}
+
+.rowHidden {
+  opacity: 0.5;
+}
+
+/* Grip handle */
+.grip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: grab;
+  opacity: 0.35;
+  padding: 2px;
+  border-radius: 3px;
+  transition: opacity 0.15s, color 0.15s;
+}
+
+.grip:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.grip:active {
+  cursor: grabbing;
+}
+
+/* Text inputs */
+.labelInput,
+.hrefInput {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.15s, background-color 0.15s;
+  min-width: 0;
+}
+
+.labelInput:hover,
+.hrefInput:hover {
+  border-color: var(--color-border);
+  background: var(--color-bg-layout);
+}
+
+.labelInput:focus,
+.hrefInput:focus {
+  border-color: var(--color-primary);
+  background: var(--color-bg-layout);
+}
+
+.hrefInput {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Type selector (Page / External URL) */
+.typeSelect {
+  width: 100%;
+}
+
+.typeSelect :global(.ant-select-selector) {
+  font-size: 0.72rem !important;
+  padding-inline: 6px !important;
+  background: var(--color-bg-layout) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Page selector — matches hrefInput invisible-until-hover look */
+.pageSelect {
+  width: 100%;
+}
+
+.pageSelect :global(.ant-select-selector) {
+  font-size: 0.75rem !important;
+  font-family: var(--font-mono) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  color: var(--color-text-secondary) !important;
+  transition: border-color 0.15s, background-color 0.15s !important;
+}
+
+.pageSelect:hover :global(.ant-select-selector),
+.pageSelect :global(.ant-select-focused .ant-select-selector) {
+  border-color: var(--color-border) !important;
+  background: var(--color-bg-layout) !important;
+}
+
+/* Link cell — opens item href in a new tab */
+.linkBtn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  color: var(--color-text-secondary);
+  opacity: 0.55;
+  transition: opacity 0.15s, color 0.15s;
+  text-decoration: none;
+  padding: 2px 4px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.linkBtn:hover {
+  opacity: 1;
+  color: var(--color-primary);
+}
+
+.linkBtn[aria-disabled="true"] {
+  pointer-events: none;
+  opacity: 0.2;
+}
+
+.linkSlug {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.linkIcon {
+  flex-shrink: 0;
+}
+
+/* Toggle cells */
+.toggleCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Status chip */
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid;
+  cursor: pointer;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+
+.statusChip:hover {
+  opacity: 0.75;
+}
+
+.statusActive {
+  background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  border-color: color-mix(in srgb, var(--color-success) 40%, transparent);
+  color: var(--color-success);
+}
+
+.statusHidden {
+  background: var(--color-bg-layout);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+/* Delete button */
+.deleteBtn {
+  background: transparent;
+  border: none;
+  font-size: 0.7rem;
+  color: var(--color-error);
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+  text-align: right;
+}
+
+.deleteBtn:hover:not(:disabled) {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+.deleteBtn:disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
+}
+
+/* Empty state */
+.empty {
+  padding: 3rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* Loading / error states */
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  font-size: 0.85rem;
+}
+
+.error { color: var(--color-error); }
+.loading { color: var(--color-text-secondary); }
+
+/* Responsive — allow horizontal scroll on small screens */
+@media (max-width: 900px) {
+  .tableWrapper {
+    overflow-x: auto;
+  }
+
+  .tableHead,
+  .row {
+    min-width: 740px;
+  }
+}

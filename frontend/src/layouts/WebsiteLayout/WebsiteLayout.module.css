@@ -1,0 +1,7 @@
+/* WebsiteLayout sets --cms-nav-h so PageForm's sticky header can
+   offset itself below the CmsNav without prop drilling.
+   The CmsNav itself renders in AdminLayout (outside .content) so it
+   is always visible and needs no sticky/margin tricks. */
+.layout {
+  --cms-nav-h: 48px;
+}

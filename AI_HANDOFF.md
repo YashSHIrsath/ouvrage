@@ -171,7 +171,22 @@ Construction Website/
 
 ## Admin Routes (wrapped by `AdminLayout`)
 
-`AdminLayout` uses Ant Design's `<Layout>` with an empty `<Sider>` (width 240px) and empty `<Header>`. The `<Content>` renders the Outlet.
+`AdminLayout` is a custom HTML layout (no Ant Design Layout/Sider). Structure:
+- `Sidebar` — fixed, 240px wide, collapses to 64px. Stores state in `sidebarStore` (persists `isCollapsed` to localStorage).
+- `Topbar` — sticky 56px bar with page title, theme toggle, user name, logout.
+- `main` — scrolls, `margin-left` transitions with sidebar. `<Outlet />` renders here.
+
+All admin routes are wrapped by `RequireAuth` → `AdminLayout`. Auth entry point is `/portal/login` (not `/admin/login`).
+
+---
+
+### `/portal/login` — Admin Login
+
+**File:** `frontend/src/pages/portal/LoginPage.tsx`
+
+**Content:** Standalone dark card with BuildCo logo, grid texture background, orange card top border. `LoginForm` uses React Hook Form + `useAuth().login`. Errors shown as toast notifications (not inline). Redirects to `/admin` on success.
+
+**Completion:** 100%
 
 ---
 
@@ -179,7 +194,27 @@ Construction Website/
 
 **File:** `frontend/src/pages/admin/DashboardPage.tsx`
 
-**Content:** `<div>Dashboard</div>` — placeholder only.
+**Content:** Placeholder only — icon + "Coming soon" message.
+
+**Completion:** 0% (placeholder)
+
+---
+
+### `/admin/website` — Website CMS
+
+**File:** `frontend/src/pages/admin/WebsitePage.tsx` → children include `ServicesPage`
+
+**Content:** Services CRUD is fully implemented as a database-driven module with drag-and-drop reordering, image upload/crop, search/filter, collapsible side panel, sticky form header. Blueprint for all future CMS modules.
+
+**Completion:** Services: 100%. Projects, Testimonials, Team, FAQ: 0%.
+
+---
+
+### `/admin/forms` — Forms
+
+**File:** `frontend/src/pages/admin/FormsPage.tsx`
+
+**Content:** Placeholder only.
 
 **Completion:** 0%
 
@@ -189,19 +224,9 @@ Construction Website/
 
 **File:** `frontend/src/pages/admin/SiteSettingsPage.tsx`
 
-**Content:** Not read — assumed placeholder based on pattern.
+**Content:** `GeneralSettingsForm` — fully functional. Fields: company name, tagline, email, phone, address, logo upload (with canvas crop), favicon upload. Backend: `site_settings` singleton table, `SiteSettings::current()`, file storage in `public/settings/`.
 
-**Completion:** 0%
-
----
-
-### `/admin/theme` — Theme Settings
-
-**File:** `frontend/src/pages/admin/ThemeSettingsPage.tsx`
-
-**Content:** Not read — assumed placeholder based on pattern.
-
-**Completion:** 0%
+**Completion:** 100%
 
 ---
 
@@ -561,10 +586,42 @@ Note: The public site does NOT use these typography components. All public typog
 Located in: `frontend/src/components/ui/`
 
 **Button** (`Button/Button.tsx`)
-- Purpose: Wraps Ant Design Button with a custom variant/size API
+- Purpose: Base button wrapping Ant Design Button. Admin panel only — public site never uses this.
 - Props: `variant` (primary|default|dashed|text|link|danger), `size` (sm|md|lg), `loading`, `disabled`, `icon`, `block`, `onClick`, `htmlType`, `className`
-- Note: This component is for the admin panel. The public site uses raw `<button>` and `<Link>` elements styled with CSS modules (never the shared Button component) to avoid Ant Design CSS-in-JS bleeding into the public site's aesthetic.
-- Used on: Admin panel only
+
+**AdminButton** (`AdminButton/AdminButton.tsx`)
+- Purpose: Button with Barlow Condensed uppercase styling. Wraps `Button`. Use this for all admin form actions.
+- Props: same as Button plus `AdminButtonVariant` (primary/default/danger/ghost)
+- CSS: `:global(.ant-btn-primary)` override forces orange + `filter: brightness(1.1)` on hover
+
+**PageHeader** (`PageHeader/PageHeader.tsx`)
+- Purpose: Top of every admin page — title, optional description, optional actions slot (right-aligned).
+- Props: `title`, `description?`, `actions?`, `className?`
+- Pattern: `<PageHeader title="General Settings" actions={<AdminButton ...>Save</AdminButton>} />`
+
+**SectionCard** (`SectionCard/SectionCard.tsx`)
+- Purpose: Titled card container grouping related form fields. Used inside admin forms.
+- Props: `title?`, `description?`, `children`, `actions?`, `className?`
+
+**StatusBadge** (`StatusBadge/StatusBadge.tsx`)
+- Purpose: Colored dot + label for status 1/0/9 or variant active/inactive/deleted.
+- `status={1}` = green "Active", `status={0}` = amber "Inactive", `status={9}` = red "Deleted"
+
+**Modal** (`Modal/Modal.tsx`)
+- Purpose: Ant Design Modal wrapper with custom header, X close button, and blurred backdrop.
+- Props: `open`, `onClose`, `title?`, `children`, `footer?`, `size?` (sm/md/lg/xl), `closable?`
+- Note: Uses `className` + `:global(.ant-modal-content)` for styling (not `classNames.content` — that prop doesn't exist in Ant Design v5).
+
+**ConfirmDialog** (`ConfirmDialog/ConfirmDialog.tsx`)
+- Purpose: Confirmation modal with icon ring, title, description, and cancel/confirm buttons.
+- Props: `open`, `onClose`, `onConfirm`, `title`, `description`, `confirmText`, `cancelText`, `variant` (danger/warning/default), `loading`
+
+**Toast / ToastContainer** (`Toast/`)
+- Purpose: Global in-app notification system. No external package.
+- Store: `stores/toastStore.ts` — `useToast()` hook exposes `success`, `error`, `warning`, `info` methods.
+- `ToastContainer` mounted in `app/providers/index.tsx` — renders via React portal into `document.body`.
+- Usage anywhere: `const toast = useToast(); toast.success('Saved.');`
+- Auto-dismiss: success 3s, error 5s, warning 4.5s, info 4s.
 
 **Card** (`Card/Card.tsx`) — Ant Design Card wrapper. Admin panel only.
 
@@ -578,15 +635,24 @@ Located in: `frontend/src/components/ui/`
 
 Located in: `frontend/src/components/forms/`
 
-All form components wrap Ant Design inputs and use the admin theme system.
+All form components wrap Ant Design inputs and are designed for React Hook Form + Controller pattern.
 
-**TextInput** (`TextInput/TextInput.tsx`) — Ant Design Input wrapper
+**TextInput** (`TextInput/TextInput.tsx`) — Ant Design Input wrapper. Supports `rules` prop for RHF validation.
 **TextAreaInput** (`TextAreaInput/TextAreaInput.tsx`) — Ant Design Input.TextArea wrapper
-**PasswordInput** (`PasswordInput/PasswordInput.tsx`) — Ant Design Input.Password wrapper
+**PasswordInput** (`PasswordInput/PasswordInput.tsx`) — Ant Design Input.Password wrapper. Supports `rules` prop.
 **SelectInput** (`SelectInput/SelectInput.tsx`) — Ant Design Select wrapper
 **SwitchInput** (`SwitchInput/SwitchInput.tsx`) — Ant Design Switch wrapper
+**UploadInput** (`UploadInput/UploadInput.tsx`) — File upload with drag-drop, preview, remove. Value: `string | File | null`. Preview via `URL.createObjectURL()` (cleanup on unmount). `maxSizeMb` validation.
+**FormRow** (`FormRow/FormRow.tsx`) — CSS grid layout helper. Props: `cols={1|2|3}`. Collapses to 1 col on mobile.
 
-These are designed for use with React Hook Form + Zod validation in admin forms. They are NOT used in the public CtaSection contact form (which uses raw `<input>`, `<textarea>`, `<select>` elements styled with CSS modules).
+**Admin namespace barrel** (`admin.ts`) — Re-exports existing components under admin names. Zero code duplication:
+```ts
+export { TextInput     as AdminInput    } from './TextInput/TextInput'
+export { TextAreaInput as AdminTextarea } from './TextAreaInput/TextAreaInput'
+export { SelectInput   as AdminSelect   } from './SelectInput/SelectInput'
+```
+
+Note: These are NOT used in the public CtaSection contact form (which uses raw `<input>` elements with CSS modules).
 
 ---
 
@@ -1000,6 +1066,8 @@ Images are imported as ES module references (`import heroImg from '@/assets/imag
 
 # 9. Current Project Status
 
+*Last updated: Phase 3 Stage 4 complete (2026-06-29)*
+
 ## Frontend UI
 
 | Area | Status | Notes |
@@ -1007,347 +1075,197 @@ Images are imported as ES module references (`import heroImg from '@/assets/imag
 | Design system & tokens | 100% | fonts.css, site-theme.css, index.css fully configured |
 | Shared components (navigation) | 95% | Header, Footer, NavItem, MobileMenu complete; Footer social icons are placeholders |
 | Shared components (sections) | 100% | SiteContainer, SectionLabel, PageHero all working |
-| Shared components (UI/forms) | 80% | All components built; none used on public site yet; admin usage untested |
-| Home page | 90% | All 6 sections complete; no scroll animations; no API |
-| About page | 80% | Missing standalone stats section; no API |
-| Services page | 85% | Full accordion working; label duplication minor issue |
-| Projects page | 75% | Layout works for exactly 4 projects; no filtering; no detail pages |
-| Testimonials page | 85% | Carousel works; only 3 items |
-| FAQ page | 85% | Accordion works; 6 static questions; no categories |
-| Contact page | 70% | Form renders; no validation; no API submission |
-| Admin panel | 2% | Layout shell scaffolded (empty Sider + Header); 3 page stubs |
-| ProcessSection | 100% UI | Component complete but has no page/route |
+| Shared components (UI) | 100% | PageHeader, SectionCard, AdminButton, Modal, ConfirmDialog, StatusBadge, Toast all built |
+| Shared components (forms) | 100% | AdminInput, AdminTextarea, AdminSelect, UploadInput, FormRow all built |
+| Home page | 90% | All sections complete; services preview connected to API |
+| About page | 80% | Missing standalone stats section; team/testimonials still static |
+| Services page | 100% | Fully connected to API with skeletons, error, and empty states |
+| Projects page | 75% | Still uses static data; layout hardcoded for 4 items |
+| Testimonials page | 85% | Still uses static data |
+| FAQ page | 85% | Still uses static data |
+| Contact page | 80% | Form has validation; service dropdown connected to API |
+| Admin shell (layout + nav) | 100% | AdminLayout, Sidebar (collapsible), Topbar, sidebarStore all complete |
+| Admin login page | 100% | Dark card, orange top border, grid texture, toast errors |
+| Admin toast system | 100% | Global, no external package, works in admin + public forms |
+| ProcessSection | 100% UI | Component complete but has no page/route (orphaned) |
 
-**Overall frontend UI: ~78%**
+**Overall frontend: ~88%**
 
 ## Backend
 
 | Area | Status | Notes |
 |------|--------|-------|
-| Laravel scaffolding | 100% | Laravel 12 project exists, vendor installed |
-| Route structure | 10% | api.php has commented stubs for v1/public/* and v1/admin/* |
-| BaseApiController | 100% | success(), created(), error(), paginated() helpers ready |
-| Database migrations | 0% | No migrations created |
-| Models | 5% | Only User.php exists (Laravel default) |
-| Controllers | 0% | No feature controllers |
-| Services layer | 0% | No business logic |
-| Authentication (Sanctum) | 0% | Not configured |
-| File uploads | 0% | Not configured |
+| Laravel scaffolding | 100% | Laravel 12, Sanctum, all middleware registered |
+| Authentication | 100% | Sanctum SPA cookies, EnsureAdmin middleware, CreateAdmin artisan command |
+| BaseApiController | 100% | success(), created(), error(), paginated() helpers |
+| `users` table + model | 100% | Extended with role, status, theme_mode, last_login_at |
+| `site_settings` table + model | 100% | Singleton, SiteSettings::current(), logo/favicon accessors |
+| `services` table + model | 100% | Full CRUD with image upload, reorder, slug, scopes |
+| Auth routes | 100% | login, logout, me |
+| Admin settings routes | 100% | GET+POST /api/v1/admin/settings/general |
+| Admin services routes | 100% | Full RESTful CRUD + reorder endpoint |
+| Public services route | 100% | GET /api/v1/services → ServiceResource |
+| All other tables | 0% | projects, testimonials, team, faqs, contact_submissions |
 
-**Overall backend: ~5%**
+**Overall backend: ~45%**
 
 ## Admin Panel
 
 | Area | Status |
 |------|--------|
-| Layout (Ant Design Sider + Header) | 10% (empty shell) |
-| Authentication | 0% |
-| Dashboard | 0% |
-| Site Settings | 0% |
-| Theme Settings | 0% |
-| Services management | 0% |
+| Layout (Sidebar + Topbar) | 100% |
+| Authentication flow | 100% |
+| Toast / notification system | 100% |
+| Site Settings → General | 100% |
+| Services CRUD | 100% |
+| Dashboard | 0% (placeholder) |
 | Projects management | 0% |
 | Testimonials management | 0% |
 | Team management | 0% |
 | FAQ management | 0% |
 | Contact messages | 0% |
 
-**Overall admin panel: ~2%**
+**Overall admin panel: ~40%**
 
 ## Overall Project
 
 | Layer | Completion |
 |-------|------------|
-| Frontend UI (public pages) | ~78% |
-| Backend API | ~5% |
-| Admin Panel | ~2% |
-| CMS (full content management) | 0% |
-| Authentication | 0% |
-| API integration (frontend ↔ backend) | 0% |
-| **Overall** | **~25%** |
+| Frontend UI | ~88% |
+| Backend API | ~45% |
+| Admin Panel | ~40% |
+| CMS modules complete | Services only |
+| Public ↔ API integration | Services only |
+| **Overall** | **~55%** |
 
 ---
 
 # 10. Missing Features
 
+*Items that were in earlier versions of this list and are now complete: authentication, admin shell, admin design system, Services CRUD, Settings → General, public services API integration.*
+
 ## Frontend — Functional Gaps
 
-1. **Contact form validation** — CtaSection form has no validation (no React Hook Form, no Zod schema). Any input submits successfully. Needs full validation before API connection.
-2. **Contact form API submission** — Form calls `e.preventDefault()` and shows a fake success state. Needs real POST to Laravel API.
-3. **Scroll-triggered animations** — No section entrance animations. DOCS specifies fade-in and slide-up on scroll. No IntersectionObserver logic exists anywhere.
-4. **Individual project detail pages** — `/projects/[slug]` does not exist. "View Project" / card links all go to `/projects`. ProjectsSection arrow buttons do nothing.
-5. **Individual team member profile pages** — "View Profile" overlays in TeamSection link to nothing.
-6. **Project filtering** — ProjectsPage has no category filter. DOCS/PAGE_ARCHITECTURE.md calls for filters and pagination.
-7. **FAQ categories** — FaqSection has no category grouping. DOCS specifies categories.
-8. **404 page** — No `*` route exists. React Router will render nothing for unmatched paths.
-9. **SEO meta tags** — No `<title>` or `<meta name="description">` per page. React 19 supports `<title>` inside components natively; add per-page.
-10. **ProcessSection page** — The component exists and is complete but has no route or page that renders it. Needs a home (e.g., include on /about or /services, or add /process route).
-11. **StatsSection standalone** — The stats (340+ projects, 28 years, etc.) are embedded in HeroSection's stats bar. DOCS/PAGE_ARCHITECTURE.md calls for a separate statistics section on the /about page. No standalone StatsSection component exists.
+1. **Contact form API submission** — Form has validation but still calls `e.preventDefault()` and shows a fake success state. Needs real POST to `/api/v1/public/contact`.
+2. **Scroll-triggered animations** — No section entrance animations. No IntersectionObserver logic anywhere.
+3. **Individual project detail pages** — `/projects/[slug]` does not exist. All project cards link to `/projects`.
+4. **Individual team member profile pages** — "View Profile" in TeamSection goes nowhere.
+5. **Project filtering** — ProjectsPage has no category filter or pagination.
+6. **FAQ categories** — FaqSection has no category grouping.
+7. **ProcessSection page** — Component is complete but orphaned — no route renders it. Best placement: `/services` page, after `ServicesSection`.
+8. **API integration for remaining pages** — Projects, Testimonials, Team, FAQ, About stats still use local static data files.
 
-## Backend — Entire Layer Missing
+## Backend — Still Missing
 
-12. **All Laravel migrations** — No tables exist. Need: services, projects, project_images, testimonials, team_members, faqs, faq_categories, site_settings, theme_settings, contact_submissions, users.
-13. **All Eloquent models** — Only User.php exists.
-14. **All API controllers** — No public or admin controllers for any content type.
-15. **Authentication** — Laravel Sanctum is in composer.json but not configured. No login endpoint, no token management, no protected route middleware.
-16. **Admin-protected routes** — No middleware applied to `/api/v1/admin/*` routes.
-17. **File upload handling** — No storage configuration for project images, team photos, or logo uploads.
-18. **Form requests (validation)** — No FormRequest classes for API input validation.
-19. **Service layer** — No `app/Services/` classes for business logic.
+9. **`projects` + `project_images` tables** — Migration, model, controller, public API route not yet built.
+10. **`testimonials` table** — Not yet built.
+11. **`team_members` table** — Not yet built.
+12. **`faqs` + `faq_categories` tables** — Not yet built.
+13. **`contact_submissions` table** — Not yet built. Contact form submissions go nowhere.
+14. **Public API routes for remaining content** — Only `/api/v1/services` exists. Need: projects, testimonials, team, faq, contact POST.
 
-## Admin Panel — Entire Interface Missing
+## Admin Panel — CMS Modules Not Yet Built
 
-20. **Admin navigation sidebar** — Currently an empty `<Sider>` div.
-21. **Admin header** — Currently an empty `<Header>` div.
-22. **Login page** — No `/admin/login` route. No authentication flow. No auth store (Zustand).
-23. **Protected route wrapper** — No component that checks auth state and redirects to login.
-24. **Dashboard widgets** — No stats widgets for total services/projects/testimonials/messages.
-25. **Site settings form** — No form for company name, address, phone, email, social links.
-26. **Theme settings panel** — No live theme switcher or color picker.
-27. **Services CRUD** — No list, create, edit, delete screens.
-28. **Projects CRUD** — No list, create, edit, delete screens. No image upload UI.
-29. **Testimonials CRUD** — No management screens.
-30. **Team members CRUD** — No management screens. No photo upload.
-31. **FAQ management** — No CRUD. No category management.
-32. **Contact messages inbox** — No read/unread list. No delete.
-
-## Frontend API Integration — Entire Layer Missing
-
-33. **API client setup** — Axios instance exists (per package.json) but no configured client with base URL, auth headers, interceptors.
-34. **TanStack Query hooks per feature** — No `useServices()`, `useProjects()`, `useTestimonials()`, etc. hooks exist.
-35. **Data file → API migration** — All 8 local data files need to be replaced by TanStack Query calls once the API exists.
-36. **Loading states** — No skeleton loaders or loading indicators for async data in any public component.
-37. **Error states** — No error boundaries or empty states for failed API requests.
+15. **Projects CRUD** — No list, create, edit, delete screens. No image gallery upload.
+16. **Testimonials CRUD** — No management screens.
+17. **Team members CRUD** — No management screens. No photo upload.
+18. **FAQ management** — No CRUD. No category management.
+19. **Contact messages inbox** — No read/unread list. No delete.
+20. **Dashboard widgets** — Placeholder page only. No stats counters.
 
 ## Cosmetic / Polish
 
-38. **Footer social icons** — Uses placeholder Lucide icons instead of actual brand SVGs (Facebook, Instagram, LinkedIn, X/Twitter).
-39. **Footer legal links** — Privacy Policy and Terms of Service links go to `#`.
-40. **Footer service list** — Hardcoded strings ("General Construction", "Renovation & Remodeling", etc.) that don't match the actual services in `services.ts`.
-41. **CTA section on contact page** — Shows "06 / Contact" SectionLabel immediately below PageHero which already says "06 / Contact" — minor label duplication.
-42. **AboutPreviewSection label** — Shows "00 / About" inside the section, which reads oddly after the PageHero already labels the page as "01 / About".
+21. **Footer social icons** — Uses placeholder Lucide icons instead of actual brand SVGs (Facebook, Instagram, LinkedIn, X/Twitter).
+22. **Footer legal links** — Privacy Policy and Terms of Service links go to `#`.
+23. **Footer service list** — Hardcoded strings that don't dynamically pull from the services API.
+24. **CTA section label duplication** — Contact page shows "06 / Contact" SectionLabel directly below PageHero which also says "06 / Contact".
 
 ---
 
 # 11. Recommended Next Development Steps
 
-## Step 1: Backend — Database Migrations
-
-Create all Laravel migrations in order. Do not skip this step — frontend API connection depends on it.
-
-**Migration order (respect foreign keys):**
-
-1. `create_users_table` — Already exists (Laravel default). May need to extend with `is_admin: boolean`.
-
-2. `create_site_settings_table` — Single-row global config:
-   - `company_name`, `tagline`, `email`, `phone`, `address`, `logo` (file path)
-   - `social_facebook`, `social_instagram`, `social_linkedin`, `social_twitter`
-   - `status tinyint default 1`
-
-3. `create_theme_settings_table` — Single-row:
-   - `mode` (enum: light, dark, custom)
-   - `primary_color`, `secondary_color`, `background_color`, `surface_color`, `text_color`
-   - `border_radius` (int, px value)
-   - `font_family`
-
-4. `create_services_table`:
-   - `id`, `title`, `subtitle`, `description`, `tags` (JSON), `order_index`, `status tinyint`
-
-5. `create_projects_table`:
-   - `id`, `slug` (unique), `title`, `location`, `year`, `type`, `area`
-   - `featured tinyint default 0`
-   - `order_index`, `status tinyint`
-
-6. `create_project_images_table`:
-   - `id`, `project_id` (FK → projects.id), `path`, `is_primary tinyint`, `order_index`
-
-7. `create_testimonials_table`:
-   - `id`, `quote`, `client_name`, `client_role`, `client_company`
-   - `initials` (auto-computable but store for performance)
-   - `featured tinyint default 0`, `order_index`, `status tinyint`
-
-8. `create_team_members_table`:
-   - `id`, `name`, `role`, `bio` (text), `experience` (e.g. "24 yrs")
-   - `photo` (file path), `order_index`, `status tinyint`
-   - `social_linkedin`, `social_email`
-
-9. `create_faq_categories_table`:
-   - `id`, `name`, `order_index`, `status tinyint`
-
-10. `create_faqs_table`:
-    - `id`, `category_id` (FK → faq_categories.id, nullable), `question`, `answer`
-    - `order_index`, `status tinyint`
-
-11. `create_contact_submissions_table`:
-    - `id`, `name`, `company` (nullable), `email`, `service` (nullable), `message`
-    - `is_read tinyint default 0`, `status tinyint default 1`
-    - `created_at`, `updated_at`
-
-**Status values rule (from DOCS/DESIGN_SYSTEM.md):**
-- 1 = Active, 0 = Inactive, 9 = Deleted
-- All queries must have `->where('status', '!=', 9)` or a scope `scopeActive`
-- Never permanently delete records — set status to 9
+*Steps 1–8 from the original plan (auth, backend, public API, admin shell, Services CMS) are **complete**. Pick up from here:*
 
 ---
 
-## Step 2: Backend — Models
+## Next: Projects CMS Module
 
-Create one Eloquent model per table. Add these to each model:
+Follow the same pattern as Services — it is the established blueprint.
 
+**Step 1 — Backend:**
 ```php
-protected $guarded = [];
-protected $casts = ['tags' => 'array', 'featured' => 'boolean'];
+// Migration
+Schema::create('projects', function (Blueprint $table) {
+    $table->id();
+    $table->string('slug')->unique();
+    $table->string('title');
+    $table->string('location')->nullable();
+    $table->string('year', 10)->nullable();
+    $table->string('type')->nullable();
+    $table->string('area')->nullable();
+    $table->tinyInteger('featured')->default(0);
+    $table->unsignedSmallInteger('order_index')->default(0);
+    $table->tinyInteger('status')->default(1);
+    $table->timestamps();
+});
 
-public function scopeActive($q) { return $q->where('status', 1); }
-public function scopeOrdered($q) { return $q->orderBy('order_index'); }
+Schema::create('project_images', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('project_id')->constrained()->cascadeOnDelete();
+    $table->string('path');
+    $table->tinyInteger('is_primary')->default(0);
+    $table->unsignedSmallInteger('order_index')->default(0);
+    $table->timestamps();
+});
 ```
 
-The `Project` model has a `hasMany(ProjectImage::class)` relationship. Always eager load with `->with('images')` to avoid N+1.
+- `Project` model: `hasMany(ProjectImage::class)`, `scopeActive()`, `scopeOrdered()`, eager load images.
+- `ProjectController`: full RESTful CRUD + reorder endpoint (follow ServiceController pattern).
+- Public route: `GET /api/v1/projects` + `GET /api/v1/projects/{slug}`.
 
----
-
-## Step 3: Backend — Public API Controllers
-
-Create in `app/Http/Controllers/Api/Public/`. All extend `BaseApiController`. All routes are unauthenticated (no Sanctum middleware).
-
-**Routes to add to `routes/api.php` inside the `public` prefix group:**
-
-```php
-Route::get('/services', [ServiceController::class, 'index']);
-Route::get('/projects', [ProjectController::class, 'index']);
-Route::get('/projects/{slug}', [ProjectController::class, 'show']);
-Route::get('/testimonials', [TestimonialController::class, 'index']);
-Route::get('/team', [TeamController::class, 'index']);
-Route::get('/faq', [FaqController::class, 'index']);
-Route::get('/site-settings', [SiteSettingsController::class, 'show']);
-Route::post('/contact', [ContactController::class, 'store']);
+**Step 2 — Frontend feature module:**
+```
+frontend/src/features/projects/
+├── types/index.ts
+├── api/projectsService.ts
+├── hooks/useProjects.ts         ← admin: useQuery + useMutation
+├── hooks/usePublicProjects.ts   ← public: useQuery
+└── components/
+    ├── ProjectsList/            ← admin table
+    └── ProjectForm/             ← admin form
 ```
 
-Each `index` method should:
-1. Query only `status = 1` records via `scopeActive()`
-2. Order by `order_index` via `scopeOrdered()`
-3. Return `$this->success($records)`
-
-The `contact` store method:
-1. Validate: name (required), email (required, email), message (required, min:10)
-2. Create `ContactSubmission` record
-3. Return `$this->created(null, 'Your enquiry has been received.')`
-4. Optionally: queue a notification email (Phase 3)
+**Step 3 — Connect public site:**
+- Replace `import { PROJECTS } from '../../data/projects'` with `usePublicProjects()` hook
+- Add loading skeletons + error states to `ProjectsSection` and `ProjectsPreview`
+- Note: `ProjectsSection` has hardcoded index access — refactor when switching to dynamic data
 
 ---
 
-## Step 4: Backend — Authentication
+## After Projects: Testimonials → Team → FAQ → Contact Messages
 
-1. Install/configure Laravel Sanctum (`php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"`)
-2. Create `POST /api/v1/auth/login` endpoint — validates credentials, returns Sanctum token
-3. Create `POST /api/v1/auth/logout` endpoint — revokes current token
-4. Create `GET /api/v1/auth/me` endpoint — returns current user
-5. Apply `auth:sanctum` middleware to all admin routes
-6. Ensure `User` model has `HasApiTokens` trait
+Same pattern each time:
+1. Backend migration + model + controller + routes
+2. Frontend: types + service + admin hook + public hook + admin list + admin form
+3. Connect public sections to API (replace local data file)
 
 ---
 
-## Step 5: Frontend — API Client + Hooks
+## Contact Form — API Submission
 
-Create `frontend/src/services/apiClient.ts`:
-```typescript
-import axios from 'axios'
-const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/v1',
-  headers: { 'Accept': 'application/json' },
-})
-// Add request interceptor to inject auth token from authStore
-```
-
-Then create feature hooks:
-- `frontend/src/features/home/hooks/useServices.ts` — TanStack Query `useQuery`
-- `frontend/src/features/home/hooks/useProjects.ts`
-- `frontend/src/features/home/hooks/useTestimonials.ts`
-- `frontend/src/features/home/hooks/useTeam.ts`
-- `frontend/src/features/faq/hooks/useFaq.ts`
-
-Each hook replaces the imported constant from the data file. Update components one at a time, replacing `import { SERVICES } from '../../data/services'` with `const { data: services, isLoading } = useServices()` and handling loading/error states.
+Frontend already has validation (Zod + RHF). Only the actual POST is missing:
+1. Backend: `create_contact_submissions_table` migration + `ContactSubmission` model + `ContactController::store()`
+2. Public route: `POST /api/v1/public/contact`
+3. Frontend: replace fake `setSubmitted(true)` with `useMutation` to POST endpoint
 
 ---
 
-## Step 6: Frontend — Admin Authentication
+## Polish / Polish
 
-1. Create `frontend/src/stores/authStore.ts` (Zustand):
-   - State: `user | null`, `token: string | null`, `isAuthenticated: boolean`
-   - Actions: `login(credentials)`, `logout()`, `setUser(user)`
-   - Persist token to localStorage
-
-2. Create `frontend/src/pages/admin/LoginPage.tsx`:
-   - Simple form: email + password + submit
-   - Use React Hook Form + Zod validation
-   - On success: save token to authStore, navigate to /admin
-
-3. Create `frontend/src/components/navigation/ProtectedRoute/ProtectedRoute.tsx`:
-   - Reads `isAuthenticated` from authStore
-   - Redirects to `/admin/login` if false
-
-4. Update `frontend/src/routes/index.tsx`:
-   - Wrap all `/admin/*` children with `<ProtectedRoute>`
-   - Add `{ path: '/admin/login', element: <LoginPage /> }` outside the ProtectedRoute
-
----
-
-## Step 7: Admin Panel — Layout and Navigation
-
-Before building any admin feature pages, build the navigation shell:
-
-1. `AdminLayout.tsx` — Wire up Ant Design Sider with menu items for each section (Dashboard, Services, Projects, Testimonials, Team, FAQ, Contact, Settings, Theme)
-2. Admin Header — Show current user name + logout button
-3. Add breadcrumbs below header (Ant Design Breadcrumb)
-
----
-
-## Step 8: Admin Panel — Content Management Pages
-
-Build in this priority order (most critical to least):
-
-1. **Services CRUD** — List table + create/edit form (title, subtitle, description, tags, order)
-2. **Projects CRUD** — List table + create/edit form + image upload (multiple, primary selection, drag-to-reorder)
-3. **Testimonials CRUD** — List table + create/edit form + featured toggle
-4. **Team CRUD** — List table + create/edit form + photo upload
-5. **FAQ CRUD** — List table + category management + create/edit form + ordering
-6. **Contact Messages** — Read-only inbox, mark as read, soft-delete (status → 9)
-7. **Site Settings** — Single-record form (company info, contact details, social links)
-8. **Theme Settings** — Mode switcher + color pickers + live preview + save
-
-All admin CRUD pages must use the shared form components (`TextInput`, `TextAreaInput`, `SelectInput`, etc.) and Ant Design Table components. No page-specific form implementations.
-
----
-
-## Step 9: Contact Form — Full Implementation
-
-Once backend exists:
-1. Add React Hook Form to CtaSection
-2. Add Zod schema: name (required), email (required, valid email), message (required, min 10 chars)
-3. Use `useMutation` (TanStack Query) to POST to `/api/v1/public/contact`
-4. Show real loading state on submit button
-5. Show success/error state based on API response
-6. Consider adding honeypot field for bot protection
-
----
-
-## Step 10: Polish and Missing Pages
-
-Once core content management works:
-
-1. **ProcessSection** — Give it a page. Best option: add as a section on `/services` page (after `ServicesSection`). Minimal change: import `ProcessSection` in `ServicesPage.tsx` and add below `ServicesSection`.
-
-2. **StatsSection standalone** — Create `components/sections/StatsSection/` that renders the 4 stats from API (not the data file). Use on `/about` page after `MissionValuesSection`.
-
-3. **404 page** — Create `src/pages/NotFoundPage.tsx` with PageHero + "PAGE NOT FOUND" + link home. Add `{ path: '*', element: <NotFoundPage /> }` to router.
-
-4. **SEO** — Add `<title>` and `<meta name="description">` to each page component. React 19 supports this natively in `<head>` via render.
-
-5. **Footer social icons** — Replace Lucide placeholder icons with actual brand SVGs. Options: download SVGs to `assets/icons/`, import as React components. Do NOT install react-icons without approval.
-
-6. **Project detail pages** — Add `/projects/:slug` route. Create `ProjectDetailPage.tsx`. Requires `projects/{slug}` API endpoint.
-
-7. **Scroll animations** — Add IntersectionObserver-based scroll detection. When sections enter viewport, add a `.visible` class that triggers CSS transitions (`opacity: 0 → 1`, `transform: translateY(20px) → 0`). Do this without Framer Motion (pure CSS + small hook) unless motion complexity requires it.
+1. **ProcessSection** — Add to `/services` page after `ServicesSection` (import and render, no new route needed).
+2. **Footer service list** — Replace hardcoded strings with dynamic `usePublicServices()` data.
+3. **Footer social icons** — Replace Lucide placeholders with actual SVGs (download to `assets/icons/`).
+4. **Scroll animations** — IntersectionObserver + CSS `.visible` class transitions. No Framer Motion.
 
 ---
 

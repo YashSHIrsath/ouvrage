@@ -8,11 +8,18 @@ import { useAuth } from '@/features/auth/hooks/useAuth'
 import styles from './Topbar.module.css'
 
 const ROUTE_TITLES: Record<string, string> = {
-  '/admin':          'Dashboard',
-  '/admin/website':  'Website',
-  '/admin/website/services': 'Website / Services',
-  '/admin/forms':    'Forms',
-  '/admin/settings': 'Settings',
+  '/admin':                           'Dashboard',
+  '/admin/website/home':              'Website / Home',
+  '/admin/website/about':             'Website / About',
+  '/admin/website/services':          'Website / Services',
+  '/admin/website/projects':          'Website / Projects',
+  '/admin/website/testimonials':      'Website / Testimonials',
+  '/admin/website/faq':               'Website / FAQ',
+  '/admin/website/contact':           'Website / Contact',
+  '/admin/website/navigation':        'Website / Navigation',
+  '/admin/website/pages':             'Website / Pages',
+  '/admin/forms':                     'Forms',
+  '/admin/settings':                  'Settings',
 }
 
 export function Topbar() {

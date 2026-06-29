@@ -4,7 +4,7 @@ import { Menu, ArrowUpRight, Sun, Moon } from 'lucide-react'
 import { SiteContainer } from '@/components/sections'
 import { cn } from '@/utils'
 import { useThemeStore } from '@/stores/themeStore'
-import { NAV_LINKS } from '../navLinks'
+import { useNavigation } from '@/features/navigation/hooks/useNavigation'
 import { NavItem } from '../NavItem/NavItem'
 import { MobileMenu } from '../MobileMenu/MobileMenu'
 import styles from './Header.module.css'
@@ -14,6 +14,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
   const { mode, setMode } = useThemeStore()
+  const { navbarItems } = useNavigation()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80)
@@ -37,7 +38,7 @@ export function Header() {
             </Link>
 
             <nav className={styles.nav} aria-label="Main navigation">
-              {NAV_LINKS.map((link) => (
+              {navbarItems.map((link) => (
                 <NavItem key={link.href} href={link.href} label={link.label} />
               ))}
             </nav>

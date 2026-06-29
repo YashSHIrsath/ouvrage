@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Globe, Camera, Briefcase, Share2, MapPin, Phone, Mail } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { SiteContainer } from '@/components/sections'
-import { NAV_LINKS } from '../navLinks'
+import { useNavigation } from '@/features/navigation/hooks/useNavigation'
 import styles from './Footer.module.css'
 
 interface SocialLink {
@@ -39,6 +39,7 @@ const CONTACT_INFO: ContactItem[] = [
 
 export function Footer() {
   const year = new Date().getFullYear()
+  const { footerItems } = useNavigation()
 
   return (
     <footer className={styles.footer}>
@@ -72,7 +73,7 @@ export function Footer() {
           <div className={styles.column}>
             <h4 className={styles.colTitle}>Navigation</h4>
             <ul className={styles.linkList}>
-              {NAV_LINKS.map((link) => (
+              {footerItems.map((link) => (
                 <li key={link.href}>
                   <Link to={link.href} className={styles.link}>{link.label}</Link>
                 </li>

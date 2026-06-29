@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(ServiceSeeder::class);
+        $this->call(PageSeeder::class);
+        $this->call(NavItemSeeder::class);
     }
 }

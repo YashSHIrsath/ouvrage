@@ -1,12 +1,16 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import { cn } from '@/utils'
 import { useSidebarStore } from '@/stores/sidebarStore'
 import { Sidebar } from './Sidebar/Sidebar'
 import { Topbar } from './Topbar/Topbar'
+import { WebsiteCmsNav } from './WebsiteCmsNav/WebsiteCmsNav'
 import styles from './AdminLayout.module.css'
 
 export function AdminLayout() {
   const { isCollapsed, isMobileOpen, closeMobile } = useSidebarStore()
+  const { pathname } = useLocation()
+
+  const showCmsNav = pathname.startsWith('/admin/website')
 
   return (
     <div
@@ -25,9 +29,10 @@ export function AdminLayout() {
         aria-hidden="true"
       />
 
-      {/* Main: topbar + scrollable content */}
+      {/* Main: topbar → [optional website nav] → scrollable content */}
       <div className={styles.main}>
         <Topbar />
+        {showCmsNav && <WebsiteCmsNav />}
         <main className={styles.content}>
           <Outlet />
         </main>

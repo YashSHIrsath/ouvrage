@@ -1,7 +1,7 @@
 import { Drawer } from 'antd'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
-import { NAV_LINKS } from '../navLinks'
+import { useNavigation } from '@/features/navigation/hooks/useNavigation'
 import { NavItem } from '../NavItem/NavItem'
 import styles from './MobileMenu.module.css'
 
@@ -12,6 +12,7 @@ interface MobileMenuProps {
 
 export function MobileMenu({ open, onClose }: MobileMenuProps) {
   const navigate = useNavigate()
+  const { navbarItems } = useNavigation()
 
   const handleCta = () => {
     navigate('/contact?enquiry=quote')
@@ -40,7 +41,7 @@ export function MobileMenu({ open, onClose }: MobileMenuProps) {
       }
     >
       <nav className={styles.nav} aria-label="Mobile navigation">
-        {NAV_LINKS.map((link) => (
+        {navbarItems.map((link) => (
           <NavItem
             key={link.href}
             href={link.href}
